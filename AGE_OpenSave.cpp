@@ -244,7 +244,7 @@ void AGE_OpenSave::OnDefaultAoP(wxCommandEvent &event)
 
 void AGE_OpenSave::OnDefaultDE2(wxCommandEvent &event)
 {
-    OnDefault("\\Steam\\steamapps\\common\\Age2HD");
+    OnDefault("\\Steam\\steamapps\\common\\AoE2DE");
     wxString locale = LanguageBox->GetValue();
 
     CheckBox_GenieVer->SetSelection(EV_DE2);
