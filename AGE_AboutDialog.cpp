@@ -1,7 +1,7 @@
 #include "AGE_AboutDialog.h"
 #include "AppIcon64.xpm"
 
-const wxString AGE_AboutDialog::AGE_VER = "2018.2.27";
+const wxString AGE_AboutDialog::AGE_VER = "2019.11.17.martin";
 
 AGE_AboutDialog::AGE_AboutDialog(wxWindow *parent, const wxFont &font)
 : wxDialog(parent, -1, "About Advanced Genie Editor", wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxNO_DEFAULT)
@@ -32,8 +32,9 @@ namespace GG
 {
 
 size_t cache_depth = 42;
-LRU_SLP<int> slp_cache_resnum;
-LRU_SLP<string> slp_cache_resname;
+LRU_SLP<int, genie::SlpFilePtr> slp_cache_resnum;
+LRU_SLP<string, genie::SlpFilePtr> slp_cache_resname;
+LRU_SLP<string, genie::SmpFilePtr> smp_cache_resname;
 
 void LoadPalettes(vector<vector<genie::Color>> &palettes, const string &path)
 {
@@ -135,6 +136,26 @@ genie::SlpFilePtr LoadSLP(const string &filename)
         }
     }
     return slp;
+}
+
+genie::SmpFilePtr LoadSMP(const std::string &filename)
+{
+    genie::SmpFilePtr smp = smp_cache_resname.use(filename);
+    if(!smp)
+    {
+        try
+        {
+            smp.reset(new genie::SmpFile());
+            smp->load(filename);
+            smp->freelock();
+            smp_cache_resname.put(filename, smp);
+        }
+        catch(const std::ios_base::failure&)
+        {
+            return genie::SmpFilePtr();
+        }
+    }
+    return smp;
 }
 
 }

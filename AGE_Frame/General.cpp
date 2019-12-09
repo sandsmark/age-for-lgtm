@@ -9,16 +9,15 @@ void AGE_Frame::ListMapData()
 void AGE_Frame::OnVariableCalc(wxFocusEvent &event)
 {
     event.Skip();
-    long Result, Temp;
+    long Result = 0, Temp = 0;
 
     if(!General_CalcBoxes[0]->IsEmpty())
     {
         if (!General_CalcBoxes[0]->GetValue().ToLong(&Result)) {
             return;
         }
+        Result &= 0xFF;
     }
-    else Result = 0;
-    Result = (uint8_t)Result;
 
     if(!General_CalcBoxes[1]->IsEmpty())
     {
@@ -34,6 +33,7 @@ void AGE_Frame::OnVariableCalc(wxFocusEvent &event)
         if (!General_CalcBoxes[2]->GetValue().ToLong(&Temp)) {
             return;
         }
+        Temp &= 0xFF;
     }
     else Temp = 0;
     Result += (uint8_t)Temp << 16;
@@ -43,6 +43,7 @@ void AGE_Frame::OnVariableCalc(wxFocusEvent &event)
         if (!General_CalcBoxes[3]->GetValue().ToLong(&Temp)) {
             return;
         }
+        Temp &= 0xFF;
     }
     else Temp = 0;
     Result += (uint8_t)Temp << 24;

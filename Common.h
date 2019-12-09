@@ -61,6 +61,8 @@
 #include "genie/script/ScnFile.h"
 #include "genie/resource/Color.h"
 #include "genie/resource/SlpFrame.h"
+#include "genie/resource/SmpFrame.h"
+#include "genie/resource/SmpFile.h"
 #include "genie/resource/DrsFile.h"
 #include "genie/dat/DatFile.h"  // Newer dat system
 #include "genie/lang/LangFile.h"
@@ -173,10 +175,11 @@ enum EditableVersion
     EV_SWGB,
     EV_CC,
     EV_EF,
-    EV_Tapsa
+    EV_Tapsa,
+    EV_DE2
 };
 
-enum ContainerType {CByte, CUByte, CFloat, CLong, CShort, CUShort, CString};
+enum ContainerType {CByte, CUByte, CFloat, CLong, CULong, CShort, CUShort, CString};
 
 class SolidText: public wxStaticText
 {

@@ -48,6 +48,7 @@ AGETextCtrl* AGETextCtrl::init(const ContainerType type, vector<AGETextCtrl*> *g
     case CUByte: product = new TextCtrl_UByte(frame, editor, parent, length); break;
     case CFloat: product = new TextCtrl_Float(frame, editor, parent, length); break;
     case CLong: product = new TextCtrl_Long(frame, editor, parent, length); break;
+    case CULong: product = new TextCtrl_ULong(frame, editor, parent, length); break;
     case CShort: product = new TextCtrl_Short(frame, editor, parent, length); break;
     case CUShort: product = new TextCtrl_UShort(frame, editor, parent, length); break;
     case CString: product = new TextCtrl_String(frame, editor, parent, length); break;
@@ -302,6 +303,64 @@ int TextCtrl_Long::SaveEdits(bool forced)
     else
     {
         ChangeValue(std::to_string(*(int32_t*)container.back()));
+    }
+    return 1;
+}
+
+int TextCtrl_ULong::SaveEdits(bool forced)
+{
+    if(editor->hexMode || container.empty()) return 1;
+    if(editedFileId != editor->loadedFileId) return 1;
+    string value = string(GetValue().mb_str());
+    if(value.size() > 0)
+    {
+        short batchMode = 0;
+        if(value[0] == 'b' && !BatchCheck(value, batchMode))
+        {
+            editor->post(BATCHWARNING, BWTITLE, NULL);
+            return 1;
+        }
+        try
+        {
+            uint32_t casted = stoul(value);
+            if(batchMode > 0)
+            {
+                for(auto &pointer: container)
+                {
+                    ++edits;
+                    switch(batchMode)
+                    {
+                        case 1: *(uint32_t*)pointer += casted; break;
+                        case 2: *(uint32_t*)pointer -= casted; break;
+                        case 3: *(uint32_t*)pointer *= casted; break;
+                        case 4: *(uint32_t*)pointer /= casted; break;
+                        case 5: *(uint32_t*)pointer %= casted; break;
+                    }
+                }
+                ChangeValue(std::to_string(*(uint32_t*)container.back()));
+                HandleResults(*(uint32_t*)container.back());
+                return 0;
+            }
+            if(*(uint32_t*)container.back() != casted || forced)
+            {
+                for(auto &pointer: container)
+                {
+                    ++edits;
+                    *(uint32_t*)pointer = casted;
+                }
+                HandleResults(casted);
+                return 0;
+            }
+        }
+        catch(const invalid_argument &)
+        {
+            editor->post("Please enter a number from 0 to 4 294 967 295", IETITLE, this);
+            return 2;
+        }
+    }
+    else
+    {
+        ChangeValue(std::to_string(*(uint32_t*)container.back()));
     }
     return 1;
 }
@@ -571,6 +630,28 @@ void TextCtrl_Long::replenish()
         (*it)->EnableCtrl(true);
     }
 }
+
+void TextCtrl_ULong::replenish()
+{
+    if(editor->hexMode)
+    {
+        stringbuf buffer;
+        ostream os (&buffer);
+        os << hex << setfill('0') << setw(8) << uppercase << *(uint32_t*)container.back();
+        ChangeValue(buffer.str());
+    }
+    else
+    {
+        ChangeValue(std::to_string(*(uint32_t*)container.back()));
+    }
+    if(!LinkedBoxes.empty())
+    for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
+    {
+        (*it)->SetChoice(*(uint32_t*)container.back());
+        (*it)->EnableCtrl(true);
+    }
+}
+
 
 void TextCtrl_Short::replenish()
 {

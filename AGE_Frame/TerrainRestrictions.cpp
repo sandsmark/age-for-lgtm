@@ -87,7 +87,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &event)
         for(size_t loop = selections; loop--> 0;)
         {
             TerRestrict_Accessible->prepend(&TerRestPointer->PassableBuildableDmgMultiplier[TerRestrictTerIDs[loop]]);
-            if(GenieVersion >= genie::GV_AoKA)
+            if(GenieVersion >= genie::GV_AoKA || (GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap))
             {
                 TerRestrict_Graphics[0]->prepend(&TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].ExitTileSpriteID);
                 TerRestrict_Graphics[1]->prepend(&TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].EnterTileSpriteID);
@@ -142,7 +142,7 @@ void AGE_Frame::OnTerrainRestrictionsCopy(wxCommandEvent &event)
 
     wxBusyCursor WaitCursor;
     CopyFromList(dataset->FloatPtrTerrainTables, TerRestrictIDs, copies.TRptr1);
-    if(GenieVersion >= genie::GV_AoKA)
+    if(GenieVersion >= genie::GV_AoKA || (GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap))
     CopyFromList(dataset->TerrainPassGraphicPointers, TerRestrictIDs, copies.TRptr2);
     CopyFromList(dataset->TerrainRestrictions, TerRestrictIDs, copies.TerrainRestriction);
     TerRestrict_TerRestrict_ListV->SetFocus();
@@ -200,7 +200,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainPaste(wxCommandEvent &event)
         {
             for(size_t loop = 0; loop < CopyCount; ++loop)
             dataset->TerrainRestrictions[TerRestrictIDs.front()].PassableBuildableDmgMultiplier[TerRestrictTerIDs[loop]] = TerrainRestrictionSubCopyAccess[loop];
-            if(GenieVersion >= genie::GV_AoKA)
+            if(GenieVersion >= genie::GV_AoKA || (GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap))
             {
                 for(size_t loop = 0; loop < CopyCount; ++loop)
                 {
@@ -216,7 +216,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainPaste(wxCommandEvent &event)
         CopyCount -= CopyCount+TerRestrictTerIDs.front() - dataset->TerrainRestrictions[TerRestrictIDs.front()].PassableBuildableDmgMultiplier.size();
         for(size_t loop = 0; loop < CopyCount; ++loop)
         dataset->TerrainRestrictions[TerRestrictIDs.front()].PassableBuildableDmgMultiplier[TerRestrictTerIDs.front()+loop] = TerrainRestrictionSubCopyAccess[loop];
-        if(GenieVersion >= genie::GV_AoKA)
+        if(GenieVersion >= genie::GV_AoKA || (GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap))
         {
             for(size_t loop = 0; loop < CopyCount; ++loop)
             {

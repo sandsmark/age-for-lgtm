@@ -68,13 +68,21 @@ void AGE_Frame::OnSoundSelect(wxCommandEvent &event)
         if(GenieVersion >= genie::GV_TEST)
         {
             Sounds_CacheTime->prepend(&SoundPointer->CacheTime);
-            if(GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap)
+            if((GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap) ||
+                    (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2))
             {
                 Sounds_TotalProbability->prepend(&SoundPointer->TotalProbability);
             }
         }
     }
-    SetStatusText("Selections: "+std::to_string(selections)+"    Selected sound: "+std::to_string(SoundIDs.front()), 0);
+    if(selections)
+    {
+        SetStatusText("Selections: "+std::to_string(selections)+"    Selected sound: "+std::to_string(SoundIDs.front()), 0);
+    }
+    else
+    {
+        SetStatusText("No selections", 0);
+    }
 
     for(auto &box: uiGroupSound) box->update();
     Sounds_ID->refill();

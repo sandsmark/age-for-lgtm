@@ -60,7 +60,7 @@ void AGE_Frame::OnCivSelect(wxCommandEvent &event)
     for(auto &box: uiGroupCiv) box->clear();
 
     genie::Civ * CivPointer;
-    for(auto sel = selections; sel--> 0;)
+    for(size_t sel = selections; sel--> 0;)
     {
         CivPointer = &dataset->Civs[CivIDs[sel]];
 
