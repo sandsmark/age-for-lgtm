@@ -3403,46 +3403,47 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
     {
         genie::SmpFramePtr frame;
         SetStatusText("Looking for frame "+FormatInt(graphic->frameID), 1);
-        graphic->frames = graphic->smp->getFrameCount();
+        graphic->frames = graphic->smp->frameCount();
         if(graphic->frames)
         {
             try
             {
-                frame = graphic->smp->getFrame(graphic->frameID);
+                frame = graphic->smp->frame(graphic->frameID);
             }
             catch(const out_of_range&){}
         }
-        if(!frame)
+        if(!frame || !frame->hasBaseLayer())
         {
             graphic->image = wxNullImage;
             SetStatusText("No frame: " + FormatInt(graphic->frameID) + ", frames: " + FormatInt(graphic->frames), 1);
             return;
         }
 
-        const int width = frame->getWidth();
-        const int height = frame->getHeight();
-        graphic->xpos = -frame->layer_hotspot_x;
-        graphic->ypos = -frame->layer_hotspot_y;
+        const genie::SmpBaseLayer &layer = frame->baseLayer();
+        const int width = layer.header.width;
+        const int height = layer.header.height;
+        graphic->xpos = -layer.header.hotspotX;
+        graphic->ypos = -layer.header.hotspotY;
         const int area = width * height;
         vector<uint8_t> rgbdata(area * 4, 0);
         uint8_t *val = rgbdata.data();
         uint8_t *alpha = val + area * 3;
-        const genie::SmpFrameData *imgdata = &frame->img_data;
         const vector<genie::Color> *pal = &palettes.front();
         if(!pal->empty())
         {
             for(int i=0; i < area; ++i)
             {
-                size_t pal_chooser = 0x3F & imgdata->pixel_indexes[i] >> 10;
+                size_t pal_chooser = layer.pixels[i].paletteNumber();//0x3F & layer.pixels[i] >> 10;
+//                size_t pal_chooser = 0x3F & frame->pixels()[i].paletteSection();
                 if(pal_chooser < palettes.size())
                 {
                     pal = &palettes[pal_chooser];
                 }
-                genie::Color rgba = (*pal)[0x3FF & imgdata->pixel_indexes[i]];
+                genie::Color rgba = (*pal)[layer.pixels[i].colorNumber()];//(*pal)[0x3FF & layer.pixels[i]];
                 *val++ = rgba.r;
                 *val++ = rgba.g;
                 *val++ = rgba.b;
-                *alpha++ = imgdata->alpha_channel[i] ? rgba.a : 0;
+                *alpha++ = layer.alphaMask[i] ? rgba.a : 0;
             }
             // In case of using separate player color palette
             bool sep_pcp = pc_palettes.size();
@@ -3451,12 +3452,13 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
                 pal = &pc_palettes.front();
             }
             // Apply player color
-            for(int i=0; i < imgdata->player_color_mask.size(); ++i)
+            for(int i=0; i < layer.playerColors.size(); ++i)
+//            for(int i=0; i < frame->pixels().size(); ++i)
             {
-                int flat = imgdata->player_color_mask[i].y * width + imgdata->player_color_mask[i].x;
+                int flat = layer.playerColors[i].y * width + layer.playerColors[i].x;
                 int loc = 3 * flat;
                 int locA = 3 * area + flat;
-                genie::Color rgba = (*pal)[0x3FF & imgdata->player_color_mask[i].index];
+                genie::Color rgba = (*pal)[0x3FF & layer.playerColors[i].index];
                 rgbdata[loc] = rgba.r;
                 rgbdata[loc + 1] = rgba.g;
                 rgbdata[loc + 2] = rgba.b;
@@ -3468,8 +3470,8 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
         wxImage img(width, height, pic, trans, true);
         if(centralize)
         {
-            int left = frame->hotspot_x, right = width - left,
-                    top = frame->hotspot_y, bottom = height - top;
+            int left = layer.header.hotspotX, right = width - left,
+                    top = layer.header.hotspotY, bottom = height - top;
             int half_width = left > right ? left : right;
             int half_height = top > bottom ? top : bottom;
             img.Resize(wxSize(half_width * 2, half_height * 2), wxPoint(min(half_width, half_width - left), min(half_height, half_height -   top)));
