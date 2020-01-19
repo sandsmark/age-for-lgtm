@@ -23,6 +23,12 @@ endif()
 if(MSVC AND _VCPKG_INSTALLED_DIR)
     include(${CMAKE_SOURCE_DIR}/cmake/vcpkg-wxwidgets.cmake)
 else()
+    # wxwidgets is a burning, flying shitshow
+    if(NOT DEFINED ENV{WX_CONFIG})
+        set(ENV{WX_CONFIG} wx-config-gtk3)
+        message(STATUS "Defaulting to wx-config name $ENV{WX_CONFIG}")
+    endif()
+
     find_package(wxWidgets REQUIRED adv core base)
     include("${wxWidgets_USE_FILE}")
 endif()
