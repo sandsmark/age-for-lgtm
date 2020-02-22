@@ -3,6 +3,10 @@
 #include "AGE_Copies.hpp"
 #include "AGE_Frame.h"
 
+#if __WXGTK3__
+#include <glib.h>
+#endif
+
 IMPLEMENT_APP(AGE)
 
 AGE_Frame *AGE_Frame::openEditors[4]{0};
@@ -10,6 +14,15 @@ Copies AGE_Frame::copies;
 
 bool AGE::OnInit()
 {
+#if __WXGTK3__
+    // shut gtk the fuck up, why the fuck is gtk still used anywhere
+    g_log_set_default_handler([](const gchar*, GLogLevelFlags, const gchar*,gpointer){}, nullptr);
+    g_log_set_writer_func([](GLogLevelFlags, const GLogField*, gsize, gpointer) {
+            return G_LOG_WRITER_HANDLED;
+        }, nullptr, nullptr);
+#endif
+
+
     SetVendorName("Tapsa");
     SetAppName("AdvancedGenieEditor3");
     SetAppDisplayName("Advanced Genie Editor");

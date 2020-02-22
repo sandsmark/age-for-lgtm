@@ -30,6 +30,17 @@ else()
     endif()
 
     find_package(wxWidgets REQUIRED adv core base)
+
+    # Needed to fix GTK's spam shit
+    if ("${wxWidgets_LIBRARIES}" MATCHES "gtk")
+        message(WARNING "Using GTK, expect slowness")
+        find_package(PkgConfig REQUIRED)
+        pkg_search_module(GLIB REQUIRED glib-2.0)
+        include_directories(${GLIB_INCLUDE_DIRS})
+        set(wxWidgets_LIBRARIES ${wxWidgets_LIBRARIES} ${GLIB_LDFLAGS})
+
+    endif()
+
     include("${wxWidgets_USE_FILE}")
 endif()
 
