@@ -436,7 +436,7 @@ void AGE_Frame::OnDrawBorderSLP(wxPaintEvent &event)
     }
     if(UseDRS && LoadSLP(&borderSLP)) FrameToBitmap(&borderSLP);
     if(borderSLP.image.IsOk())
-    dc.DrawBitmap(wxBitmap(borderSLP.image, 24), 0, 0, true);
+    dc.DrawBitmap(wxBitmap(borderSLP.image, 32), 0, 0, true);
 }
 
 void AGE_Frame::OnTerrainBorderBorderShapeCopy(wxCommandEvent &event)

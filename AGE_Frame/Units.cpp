@@ -1563,7 +1563,7 @@ void AGE_Frame::OnDrawIconSLP(wxPaintEvent &event)
     }
     if(UseDRS && LoadSLP(&iconSLP)) FrameToBitmap(&iconSLP);
     if(iconSLP.image.IsOk()) {
-    dc.DrawBitmap(wxBitmap(iconSLP.image, 24), 0, 0, true);
+    dc.DrawBitmap(wxBitmap(iconSLP.image, 32), 0, 0, true);
     }
     else dc.DrawLabel("!SLP/frame " + FormatInt(iconSLP.slpID), wxNullBitmap, wxRect(0, 0, 100, 40));
 }

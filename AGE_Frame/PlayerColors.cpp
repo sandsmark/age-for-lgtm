@@ -141,7 +141,7 @@ void AGE_Frame::OnDrawPalette(wxPaintEvent &/*event*/)
         *val++ = rgba.b;
     }
     unsigned char *pic = (unsigned char*)rgbdata.data();
-    wxBitmap bitmap = wxBitmap(wxImage(16, 16, pic, true).Scale(640, 640), 24);
+    wxBitmap bitmap = wxBitmap(wxImage(16, 16, pic, true).Scale(640, 640), 32);
     assert(bitmap.IsOk());
 
     dc.DrawBitmap(bitmap, 15, 15, true);
