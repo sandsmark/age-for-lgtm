@@ -1019,7 +1019,7 @@ private:
     vector<vector<genie::Color>> palettes, pc_palettes;
     std::unique_ptr<genie::IcmFile> m_icmFile;
     genie::DatFile *dataset = 0;
-    genie::LangFile *Lang = 0, *LangX = 0, *LangXP = 0;
+    std::unique_ptr<genie::LangFile> Lang = 0, LangX = 0, LangXP = 0;
     long CustomTerrains;
     int paletteView = 0, ViewBackR, ViewBackG, ViewBackB, ViewPosX, ViewPosY;
     wxBrush slp_background_brush;

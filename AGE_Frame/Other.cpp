@@ -268,11 +268,11 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
     else
     {
         UseTXT = false;
-        delete Lang;
+        Lang.reset();
         Lang = 0;
-        delete LangX;
+        LangX.reset();
         LangX = 0;
-        delete LangXP;
+        LangXP.reset();
         LangXP = 0;
 
         if(LangsUsed & 1)
@@ -283,7 +283,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             }
             else if(sizeof(size_t) > 4 || WriteLangs)
             {
-                Lang = new genie::LangFile();
+                Lang = std::make_unique<genie::LangFile>();
                 Lang->setDefaultCharset(LangCharset.c_str());
                 try
                 {
@@ -292,7 +292,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                 catch(const std::ios_base::failure&)
                 {
                     wxMessageBox("Failed to load "+LangFileName);
-                    delete Lang;
+                    Lang.reset();
                     Lang = 0;
                     return;
                 }
@@ -307,7 +307,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             }
             else if(sizeof(size_t) > 4 || WriteLangs)
             {
-                LangX = new genie::LangFile();
+                LangX = std::make_unique<genie::LangFile>();
                 LangX->setDefaultCharset(LangCharset.c_str());
                 try
                 {
@@ -316,7 +316,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                 catch(const std::ios_base::failure&)
                 {
                     wxMessageBox("Failed to load "+LangX1FileName);
-                    delete LangX;
+                    LangX.reset();
                     LangX = 0;
                     return;
                 }
@@ -331,7 +331,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             }
             else if(sizeof(size_t) > 4 || WriteLangs)
             {
-                LangXP = new genie::LangFile();
+                LangXP = std::make_unique<genie::LangFile>();
                 LangXP->setDefaultCharset(LangCharset.c_str());
                 try
                 {
@@ -340,7 +340,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                 catch(const std::ios_base::failure&)
                 {
                     wxMessageBox("Failed to load "+LangX1P1FileName);
-                    delete LangXP;
+                    LangXP.reset();
                     LangXP = 0;
                     return;
                 }
@@ -4687,9 +4687,9 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
     delete dataset;
     if(WriteLangs)
     {
-        delete Lang;
-        delete LangX;
-        delete LangXP;
+        Lang.reset();
+        LangX.reset();
+        LangXP.reset();
     }
 
     AGE_Frame::openEditors[window_num] = 0;
