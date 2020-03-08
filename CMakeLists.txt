@@ -49,6 +49,7 @@ find_package(SFML 2.4 REQUIRED system audio)
 set(GUTILS_TOOLS FALSE)
 set(GUTILS_TEST FALSE)
 
+option(ENABLE_SANITIZERS "Enable runtime sanitizing (for development)")
 if (ENABLE_SANITIZERS)
     message("Enabling asan and ubsan")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
