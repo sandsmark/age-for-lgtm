@@ -3657,6 +3657,7 @@ private:
     template <class P, class C>
     inline void PasteToListNoGV(P &path, vector<int> &places, C &copies, bool resize = true)
     {
+        (void)0;
         size_t copy_cnt = PasteCheck(path, places, copies, resize);
         for(size_t loop = 0; loop < copy_cnt; ++loop) {
             path[Paste11 ? places[loop] : places.front() + loop] = copies[loop];
