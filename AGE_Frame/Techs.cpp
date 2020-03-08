@@ -191,7 +191,7 @@ void AGE_Frame::OnEffectPasteInsert(wxCommandEvent &event)    // Works.
     ListEffects();
 }
 
-wxString AGE_Frame::Tester(genie::EffectCommand effect, wxString how)
+wxString AGE_Frame::Tester(const genie::EffectCommand &effect, wxString how)
 {
     return ((effect.AttributeID == 8 || effect.AttributeID == 9) ? (effect.AttributeID == 8 ? "armor type " : "attack type ")
         + FormatInt((uint16_t)effect.Amount >> 8) + how + FormatInt(uint16_t(effect.Amount) & 0xFF)
@@ -848,9 +848,9 @@ void AGE_Frame::LoadAllEffects(wxCommandEvent &event)
 
     Techs_AllEffects_ListV->Sweep();
 
-    for(short tech = 0; tech < dataset->Effects.size(); ++tech)
+    for(size_t tech = 0; tech < dataset->Effects.size(); ++tech)
     {
-        for(short effect = 0; effect < dataset->Effects[tech].EffectCommands.size(); ++effect)
+        for(size_t effect = 0; effect < dataset->Effects[tech].EffectCommands.size(); ++effect)
         {
             wxString Name = " T"+std::to_string(tech)+" E"+std::to_string(effect)+" - "+GetEffectCmdName(effect, tech);
             if(SearchMatches(" " + Name.Lower() + " "))

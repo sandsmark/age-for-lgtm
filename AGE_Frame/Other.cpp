@@ -1889,9 +1889,9 @@ void AGE_Frame::OnGameVersionChange()
     if(DataOpened)  // Hiding stuff according to game version should be here.
     {
         // Some general tab handling
-        for(auto loop = dataset->TerrainBlock.getSomethingSize(); loop < General_Something.size(); ++loop)
+        for(size_t loop = dataset->TerrainBlock.getSomethingSize(); loop < General_Something.size(); ++loop)
         General_Something[loop]->Show(false);
-        for(auto loop = dataset->TerrainBlock.getBytesSize(); loop < General_SomeBytes.size(); ++loop)
+        for(size_t loop = dataset->TerrainBlock.getBytesSize(); loop < General_SomeBytes.size(); ++loop)
         General_SomeBytes[loop]->Show(false);
         if(ShowUnknowns)
         {
@@ -4240,17 +4240,18 @@ void AGE_Frame::SaveBackup()
 wxString AGE_Frame::CurrentTime()
 {
     time_t now = chrono::system_clock::to_time_t(chrono::system_clock::now());
-    struct tm *parts = localtime(&now);
+    struct tm parts;
+    localtime_r(&now, &parts);
 
     stringbuf buffer;
     ostream os (&buffer);
-    os << 1900 + parts->tm_year;
+    os << 1900 + parts.tm_year;
     os << setfill('0') << setw(2);
-    os << 1 + parts->tm_mon;
-    os << setw(2) << parts->tm_mday;
-    os << setw(2) << parts->tm_hour;
-    os << setw(2) << parts->tm_min;
-    os << setw(2) << parts->tm_sec;
+    os << 1 + parts.tm_mon;
+    os << setw(2) << parts.tm_mday;
+    os << setw(2) << parts.tm_hour;
+    os << setw(2) << parts.tm_min;
+    os << setw(2) << parts.tm_sec;
     return buffer.str();
 }
 
