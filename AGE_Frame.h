@@ -3664,6 +3664,19 @@ private:
         How2List = PASTE;
     }
 
+    // Combined paste with GV without resize
+    template <class P, class C>
+    inline void PasteToListNoResize(P &path, vector<int> &places, C &copies)
+    {
+        size_t copy_cnt = PasteCheckNoResize(path, places, copies);
+        for(size_t loop = 0; loop < copy_cnt; ++loop)
+        {
+            copies[loop].setGameVersion(GenieVersion);
+            path[Paste11 ? places[loop] : places.front() + loop] = copies[loop];
+        }
+        How2List = PASTE;
+    }
+
     // Combined paste with GV
     template <class P, class C>
     inline void PasteToList(P &path, vector<int> &places, C &copies, bool resize = true)

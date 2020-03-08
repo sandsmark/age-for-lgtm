@@ -297,7 +297,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                     return;
                 }
             }
-            else LanguageDLL[0] = LoadLibrary(LangFileName.c_str());
+            else LanguageDLL[0] = LoadLibrary(LangFileName.ToStdString());
         }
         if(LangsUsed & 2)
         {
@@ -2419,7 +2419,7 @@ void AGE_Frame::OnSave(wxCommandEvent&)
 
         try
         {
-            dataset->saveAs(SaveDatFileName.c_str());
+            dataset->saveAs(SaveDatFileName.ToStdString());
         }
         catch(const std::ios_base::failure&)
         {
@@ -2475,7 +2475,7 @@ bool AGE_Frame::SaveLang()
 {
     try
     {
-        Lang->saveAs(SaveLangFileName.c_str());
+        Lang->saveAs(SaveLangFileName.ToStdString());
     }
     catch(const std::ios_base::failure&)
     {
@@ -2489,7 +2489,7 @@ bool AGE_Frame::SaveLangX1()
 {
     try
     {
-        LangX->saveAs(SaveLangX1FileName.c_str());
+        LangX->saveAs(SaveLangX1FileName.ToStdString());
     }
     catch(const std::ios_base::failure&)
     {
@@ -2503,7 +2503,7 @@ bool AGE_Frame::SaveLangX1P1()
 {
     try
     {
-        LangXP->saveAs(SaveLangX1P1FileName.c_str());
+        LangXP->saveAs(SaveLangX1P1FileName.ToStdString());
     }
     catch(const std::ios_base::failure&)
     {
@@ -2830,7 +2830,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                         topDRS->setGameVersion(GenieVersion);
                         try
                         {
-                            topDRS->load(string(Path1stDRS.c_str()));
+                            topDRS->load(string(Path1stDRS.ToStdString()));
                             datafiles.push_back(topDRS);
                         }
                         catch(const std::ios_base::failure&)
@@ -3739,7 +3739,7 @@ bool AGE_Frame::FileExists(const char * value)
 
 void AGE_Frame::LoadTXT(const wxString &filename)
 {
-    const std::string realstring(filename.c_str());
+    const std::string realstring(filename.ToStdString());
     std::ifstream infile(realstring);
     std::string line;
     while(std::getline(infile, line))
@@ -4229,7 +4229,7 @@ void AGE_Frame::SaveBackup()
 {
     try
     {
-        dataset->saveAs((DatFileName.substr(0, DatFileName.size()-4)+"_backup"+CurrentTime()+".dat").c_str());
+        dataset->saveAs((DatFileName.substr(0, DatFileName.size()-4).ToStdString()+"_backup"+CurrentTime().ToStdString()+".dat"));
     }
     catch(const std::ios_base::failure&)
     {
@@ -4353,10 +4353,10 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                     wxMessageBox("No SLP filename", "SLP");
                     return;
                 }
-                wxString name = gallery.filename + ".slp";
+                std::string name = gallery.filename.ToStdString() + ".slp";
                 try
                 {
-                    gallery.slp->saveAs(name.c_str());
+                    gallery.slp->saveAs(name);
                     wxMessageBox("Saved SLP " + name, "SLP");
                 }
                 catch(const std::ios_base::failure&)
@@ -4442,7 +4442,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             }
             try
             {
-                slp_src1->saveAs(slp_target1->GetPath().c_str());
+                slp_src1->saveAs(slp_target1->GetPath().ToStdString());
                 wxMessageBox("Merged SLP files", "SLP");
             }
             catch(const std::ios_base::failure&)

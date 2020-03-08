@@ -1628,12 +1628,12 @@ void AGE_Frame::CreateGraphicsControls()
                         target.setFrameCount(angles * frames);
                         target.version = source.slp->version;
                         target.comment = source.slp->comment;
-                        target.saveAs(name.c_str());
+                        target.saveAs(name.ToStdString());
                     }
                 }
                 else // Nothing to mirror, save as is.
                 {
-                    source.slp->saveAs(name.c_str());
+                    source.slp->saveAs(name.ToStdString());
                 }
             }
         }

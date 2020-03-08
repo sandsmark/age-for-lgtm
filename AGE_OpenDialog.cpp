@@ -68,12 +68,12 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, const wxFont &font)
 
     Button_RawDecompress->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
     {
-        wxString filename = Path_RawDecompress->GetPath();
-        wxString savename = filename+"u";
+        std::string filename = Path_RawDecompress->GetPath().ToStdString();
+        std::string savename = filename+"u";
         if(!filename.empty())
         {
             genie::DatFile raw;
-            raw.extractRaw(filename.c_str(), savename.c_str());
+            raw.extractRaw(filename, savename);
         }
     });
 

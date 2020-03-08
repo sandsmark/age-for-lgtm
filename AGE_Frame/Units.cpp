@@ -2607,9 +2607,11 @@ void AGE_Frame::OnUnitArmorsCopyToUnits(wxCommandEvent &event)
 
 wxString AGE_Frame::GetUnitCommandName(int index)
 {
-    short CommandType = (GenieVersion >= genie::GV_AoK)
-        ? dataset->UnitHeaders[UnitIDs.front()].TaskList[index].ActionType
-        : dataset->Civs[UnitCivID].Units[UnitIDs.front()].Action.TaskList[index].ActionType;
+    const short CommandType = short((GenieVersion >= genie::GV_AoK)
+            ? dataset->UnitHeaders[UnitIDs.front()].TaskList[index].ActionType
+            : dataset->Civs[UnitCivID].Units[UnitIDs.front()].Action.TaskList[index].ActionType
+        );
+    //return genie::Task::actionTypeName(int16_t(CommandType));
     switch(CommandType)
     {
         case 0: return task_names[1];
@@ -2800,7 +2802,7 @@ void AGE_Frame::OnUnitCommandSelect(wxCommandEvent &event)
             }
         }
         if(task_ptr)
-        switch(task_ptr->ActionType)
+        switch(int(task_ptr->ActionType))
         {
             case 0: Tasks_ActionType_ComboBox->SetSelection(1); break;
             case 1: Tasks_ActionType_ComboBox->SetSelection(2); break;
