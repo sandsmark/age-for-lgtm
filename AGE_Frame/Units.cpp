@@ -1036,7 +1036,7 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
     SelectedCivs.front() = UnitCivID;
     if(AutoCopy)
     {
-        for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+        for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
         {
             // Counts all selected civs and always the one being edited.
             if(Units_CivBoxes[civ]->IsChecked() && civ != UnitCivID)
@@ -1811,7 +1811,7 @@ void AGE_Frame::PasteUnits(bool OneOnOne)
             {
                 for(size_t loop = 0; loop < copies.Dat.UnitCopies.front().size(); ++loop)
                 {
-                    for(short civ = 0; civ < copies.Dat.UnitCopies.size(); ++civ)
+                    for(size_t civ = 0; civ < copies.Dat.UnitCopies.size(); ++civ)
                     {
                         if(copies.Dat.UnitExists[civ][loop] != 0)
                         {
@@ -1830,7 +1830,7 @@ void AGE_Frame::PasteUnits(bool OneOnOne)
     {
         for(size_t loop = 0; loop < copies.UnitHeader.size(); ++loop)
         {
-            for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+            for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
             {
                 if(dataset->Civs[civ].UnitPointers[CorrectID(OneOnOne, loop)] != 0)
                 dataset->Civs[civ].Units[CorrectID(OneOnOne, loop)].Action.TaskList = copies.UnitHeader[loop].TaskList;
@@ -1996,7 +1996,7 @@ void AGE_Frame::OnUnitDamageGraphicsDelete(wxCommandEvent &event)
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+    for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
     {
         if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] != 0)
         if(dataset->Civs[civ].Units[UnitIDs.front()].DamageGraphics.size())
@@ -2018,7 +2018,7 @@ void AGE_Frame::OnUnitDamageGraphicsCopy(wxCommandEvent &event)
         short CivCount = dataset->Civs.size();
         copies.Dat.UnitDamageGraphicExists.resize(CivCount);
         copies.Dat.UnitDamageGraphics.resize(CivCount);
-        for(short civ = 0, copy = 0; civ < dataset->Civs.size(); ++civ)
+        for(size_t civ = 0, copy = 0; civ < dataset->Civs.size(); ++civ)
         {
             if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] == 0)
             {
@@ -2084,7 +2084,7 @@ void AGE_Frame::OnUnitDamageGraphicsPasteInsert(wxCommandEvent &event)
     genie::unit::DamageGraphic Temp;
     if(copies.Dat.AllCivs & 0x10)
     {
-        for(short civ = 0, copy = 0; civ < dataset->Civs.size(); ++civ)
+        for(size_t civ = 0, copy = 0; civ < dataset->Civs.size(); ++civ)
         {
             if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] == 0)
             {
@@ -2112,7 +2112,7 @@ void AGE_Frame::OnUnitDamageGraphicsPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitDamageGraphicsCopyToUnits(wxCommandEvent &event)
 {
-    for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+    for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
     for(size_t loop=1; loop < UnitIDs.size(); ++loop)
     {
         dataset->Civs[civ].Units[UnitIDs[loop]].DamageGraphics = dataset->Civs[civ].Units[UnitIDs.front()].DamageGraphics;
@@ -2239,7 +2239,7 @@ void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent &event)
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+    for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
     {
         if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] != 0)
         if(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Attacks.size())
@@ -2261,7 +2261,7 @@ void AGE_Frame::OnUnitAttacksCopy(wxCommandEvent &event)
         short CivCount = dataset->Civs.size();
         copies.Dat.UnitAttackExists.resize(CivCount);
         copies.Dat.UnitAttacks.resize(CivCount);
-        for(short civ = 0, copy = 0; civ < dataset->Civs.size(); ++civ)
+        for(size_t civ = 0, copy = 0; civ < dataset->Civs.size(); ++civ)
         {
             if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] == 0)
             {
@@ -2326,7 +2326,7 @@ void AGE_Frame::OnUnitAttacksPasteInsert(wxCommandEvent &event)
     wxBusyCursor WaitCursor;
     if(copies.Dat.AllCivs & 0x20)
     {
-        for(short civ = 0, copy = 0; civ < dataset->Civs.size(); ++civ)
+        for(size_t civ = 0, copy = 0; civ < dataset->Civs.size(); ++civ)
         {
             if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] == 0)
             {
@@ -2354,7 +2354,7 @@ void AGE_Frame::OnUnitAttacksPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitAttacksCopyToUnits(wxCommandEvent &event)
 {
-    for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+    for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
     for(size_t loop=1; loop < UnitIDs.size(); ++loop)
     {
         dataset->Civs[civ].Units[UnitIDs[loop]].Combat.Attacks = dataset->Civs[civ].Units[UnitIDs.front()].Combat.Attacks;
@@ -2481,7 +2481,7 @@ void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent &event)
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+    for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
     {
         if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] != 0)
         if(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Armours.size())
@@ -2503,7 +2503,7 @@ void AGE_Frame::OnUnitArmorsCopy(wxCommandEvent &event)
         short CivCount = dataset->Civs.size();
         copies.Dat.UnitArmorExists.resize(CivCount);
         copies.Dat.UnitArmors.resize(CivCount);
-        for(short civ = 0, copy = 0; civ < dataset->Civs.size(); ++civ)
+        for(size_t civ = 0, copy = 0; civ < dataset->Civs.size(); ++civ)
         {
             if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] == 0)
             {
@@ -2568,7 +2568,7 @@ void AGE_Frame::OnUnitArmorsPasteInsert(wxCommandEvent &event)
     wxBusyCursor WaitCursor;
     if(copies.Dat.AllCivs & 0x40)
     {
-        for(short civ = 0, copy = 0; civ < dataset->Civs.size(); ++civ)
+        for(size_t civ = 0, copy = 0; civ < dataset->Civs.size(); ++civ)
         {
             if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] == 0)
             {
@@ -2596,7 +2596,7 @@ void AGE_Frame::OnUnitArmorsPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitArmorsCopyToUnits(wxCommandEvent &event)
 {
-    for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+    for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
     for(size_t loop=1; loop < UnitIDs.size(); ++loop)
     {
         dataset->Civs[civ].Units[UnitIDs[loop]].Combat.Armours = dataset->Civs[civ].Units[UnitIDs.front()].Combat.Armours;
@@ -2928,7 +2928,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent &event)
     }
     else
     {
-        for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+        for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
         {
             if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] != 0)
             if(dataset->Civs[civ].Units[UnitIDs.front()].Action.TaskList.size())
@@ -2963,7 +2963,7 @@ void AGE_Frame::OnUnitCommandsCopy(wxCommandEvent &event)
         short CivCount = dataset->Civs.size();
         copies.Dat.UnitCommandExists.resize(CivCount);
         copies.Dat.UnitCommands.resize(CivCount);
-        for(short civ = 0, copy = 0; civ < dataset->Civs.size(); ++civ)
+        for(size_t civ = 0, copy = 0; civ < dataset->Civs.size(); ++civ)
         {
             if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] == 0)
             {
@@ -3036,7 +3036,7 @@ void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent &event)
     }
     else if(copies.Dat.AllCivs & 0x80)
     {
-        for(short civ = 0, copy = 0; civ < dataset->Civs.size(); ++civ)
+        for(size_t civ = 0, copy = 0; civ < dataset->Civs.size(); ++civ)
         {
             if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] == 0)
             {
@@ -3066,7 +3066,7 @@ void AGE_Frame::OnUnitCommandsCopyToUnits(wxCommandEvent &event)
 {
     if(GenieVersion < genie::GV_AoK)
     {
-        for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+        for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
         for(size_t loop=1; loop < UnitIDs.size(); ++loop)
         {
             dataset->Civs[civ].Units[UnitIDs[loop]].Action.TaskList = dataset->Civs[civ].Units[UnitIDs.front()].Action.TaskList;
@@ -3101,7 +3101,7 @@ void AGE_Frame::UnitLangDLLConverter(wxCommandEvent &event)
         {
             dataset->Civs[UnitCivID].Units[UnitIDs.front()].LanguageDLLHelp = DLLValue;
         }
-        else for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+        else for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
         {
             dataset->Civs[civ].Units[UnitIDs.front()].LanguageDLLHelp = DLLValue;
         }
@@ -3114,7 +3114,7 @@ void AGE_Frame::UnitLangDLLConverter(wxCommandEvent &event)
         {
             dataset->Civs[UnitCivID].Units[UnitIDs.front()].LanguageDLLHotKeyText = DLLValue;
         }
-        else for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+        else for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
         {
             dataset->Civs[civ].Units[UnitIDs.front()].LanguageDLLHotKeyText = DLLValue;
         }
@@ -5667,7 +5667,7 @@ void AGE_Frame::CreateUnitControls()
             dataset->UnitHeaders.erase(dataset->UnitHeaders.begin() + UnitIDs[loop]);
         }
 
-        for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+        for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
         {
             for(auto loop = selections; loop--> 0;)
             {
@@ -5710,7 +5710,7 @@ void AGE_Frame::CreateUnitControls()
         if(copies.Dat.AllCivs & 0x01)
         {
             copies.Dat.UnitCopies.resize(CivCount);
-            for(short civ = 0; civ < CivCount; ++civ)
+            for(size_t civ = 0; civ < CivCount; ++civ)
             {
                 copies.Dat.UnitExists[civ].resize(selections);
                 copies.Dat.UnitCopies[civ].resize(selections);
@@ -5724,7 +5724,7 @@ void AGE_Frame::CreateUnitControls()
         else
         {
             copies.Dat.UnitGraphics.resize(CivCount);
-            for(short civ = 0; civ < CivCount; ++civ)
+            for(size_t civ = 0; civ < CivCount; ++civ)
             {
                 copies.Dat.UnitExists[civ].resize(selections);
                 if(AutoCopy && !CopyGraphics)
@@ -5757,7 +5757,7 @@ void AGE_Frame::CreateUnitControls()
         {
             short CivCount = dataset->Civs.size();
             copies.Dat.UnitGraphics.resize(CivCount);
-            for(short civ = 0; civ < CivCount; ++civ)
+            for(size_t civ = 0; civ < CivCount; ++civ)
             {
                 copies.Dat.UnitGraphics[civ].resize(selections);
                 for(size_t loop = 0; loop < selections; ++loop)
@@ -5788,7 +5788,7 @@ void AGE_Frame::CreateUnitControls()
                     short CivCount = dataset->Civs.size();
                     short FillingCiv = (copies.Dat.UnitGraphics.size() > 1) ? 1 : 0;
                     copies.Dat.UnitGraphics.resize(CivCount, copies.Dat.UnitGraphics[FillingCiv]);
-                    for(short civ = 0; civ < CivCount; ++civ)
+                    for(size_t civ = 0; civ < CivCount; ++civ)
                     {
                         for(size_t loop = 0; loop < CopyCount; ++loop)
                         UnitsGraphicsPaste(copies.Dat.UnitGraphics[civ][loop], civ, UnitIDs[loop]);
@@ -5810,7 +5810,7 @@ void AGE_Frame::CreateUnitControls()
                 short CivCount = dataset->Civs.size();
                 short FillingCiv = (copies.Dat.UnitGraphics.size() > 1) ? 1 : 0;
                 copies.Dat.UnitGraphics.resize(CivCount, copies.Dat.UnitGraphics[FillingCiv]);
-                for(short civ = 0; civ < CivCount; ++civ)
+                for(size_t civ = 0; civ < CivCount; ++civ)
                 {
                     for(size_t loop = 0; loop < CopyCount; ++loop)
                     UnitsGraphicsPaste(copies.Dat.UnitGraphics[civ][loop], civ, UnitIDs.front()+loop);
@@ -5919,13 +5919,13 @@ void AGE_Frame::CreateUnitControls()
         }
 
         genie::Unit Temp2;
-        for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+        for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
         {
             dataset->Civs[civ].Units.insert(dataset->Civs[civ].Units.begin() + UnitIDs.front(), copies.Dat.UnitCopies.front().size(), Temp2);
             dataset->Civs[civ].UnitPointers.insert(dataset->Civs[civ].UnitPointers.begin() + UnitIDs.front(), copies.Dat.UnitCopies.front().size(), 0);
         }
         PasteUnits();
-        for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+        for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
         {
             for(size_t loop = 0; loop < copies.Dat.UnitCopies.front().size(); ++loop)
             {
@@ -5954,7 +5954,7 @@ void AGE_Frame::CreateUnitControls()
         {
             // Find the correct sizes for subvectors.
             short UnitType = 10, DamageGraphics = 0, Attacks = 0, Armors = 0, Commands = 0;
-            for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+            for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
             {
                 if(dataset->Civs[civ].UnitPointers[UnitIDs[sel]] != 0)
                 {
@@ -5969,7 +5969,7 @@ void AGE_Frame::CreateUnitControls()
             }
             // All subvectors need to be resized!
             if(Units_SpecialCopy_Civs->GetValue())
-            for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+            for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
             {
                 if(dataset->Civs[civ].UnitPointers[UnitIDs[sel]] == 0)
                 {
@@ -6016,7 +6016,7 @@ void AGE_Frame::CreateUnitControls()
         for(short sel = 0; sel < selections; ++sel)
         {
             if(Units_SpecialCopy_Civs->GetValue())
-            for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+            for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
             dataset->Civs[civ].UnitPointers[UnitIDs[sel]] = 0;
             else
             dataset->Civs[UnitCivID].UnitPointers[UnitIDs[sel]] = 0;

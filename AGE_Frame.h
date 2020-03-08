@@ -557,7 +557,7 @@ private:
     void OnEffectCmdPaste(wxCommandEvent &event);
     void OnEffectCmdPasteInsert(wxCommandEvent &event);
     void OnEffectCmdCopyToTechs(wxCommandEvent &event);
-    inline wxString Tester(genie::EffectCommand, wxString);
+    inline wxString Tester(const genie::EffectCommand&, wxString);
     wxString GetEffectCmdName(int, int);
 
 //  Tech Tree Events

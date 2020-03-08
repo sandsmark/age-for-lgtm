@@ -335,9 +335,9 @@ void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &event)
 
     Sounds_AllItems_ListV->Sweep();
 
-    for(short sound = 0; sound < dataset->Sounds.size(); ++sound)
+    for(size_t sound = 0; sound < dataset->Sounds.size(); ++sound)
     {
-        for(short file = 0; file < dataset->Sounds[sound].Items.size(); ++file)
+        for(size_t file = 0; file < dataset->Sounds[sound].Items.size(); ++file)
         {
             wxString Name = " S"+std::to_string(sound)+" F"+std::to_string(file)+" - "+GetSoundItemName(file, sound);
             if(SearchMatches(" " + Name.Lower() + " "))
