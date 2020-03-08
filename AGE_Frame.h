@@ -1721,7 +1721,6 @@ private:
     wxGridSizer *Techs_Buttons;
     wxBoxSizer *Effects_ListArea;
     wxGridSizer *Techs_Effects_Buttons;
-    wxBoxSizer *Effects_DataAreaProperties;
     wxCheckBox *Effects_NeverHide;
     wxBoxSizer *Effects_DataA_Holder;
     wxBoxSizer *Effects_DataB_Holder;

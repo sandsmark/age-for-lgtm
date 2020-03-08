@@ -889,7 +889,6 @@ void AGE_Frame::CreateTechControls()
     Effects_DataArea = new wxBoxSizer(wxVERTICAL);
     Effects_ListArea = new wxBoxSizer(wxVERTICAL);
     Techs_Effects_Buttons = new wxGridSizer(3, 0, 0);
-    Effects_DataAreaProperties = new wxBoxSizer(wxVERTICAL);
     Techs_Techs = new wxStaticBoxSizer(wxVERTICAL, Tab_Techs, "Effects");
     Techs_Searches[0] = new wxBoxSizer(wxHORIZONTAL);
     Techs_Searches[1] = new wxBoxSizer(wxHORIZONTAL);
