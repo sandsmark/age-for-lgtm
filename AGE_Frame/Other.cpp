@@ -4241,8 +4241,12 @@ void AGE_Frame::SaveBackup()
 wxString AGE_Frame::CurrentTime()
 {
     time_t now = chrono::system_clock::to_time_t(chrono::system_clock::now());
+#if defined(_MSC_VER)
+    struct tm parts = *localtime(&now); // not threadsafe
+#else
     struct tm parts;
     localtime_r(&now, &parts);
+#endif
 
     stringbuf buffer;
     ostream os (&buffer);
