@@ -298,7 +298,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                     return;
                 }
             }
-            else LanguageDLL[0] = LoadLibrary(LangFileName.ToStdString());
+            else LanguageDLL[0] = LoadLibrary(LangFileName.c_str());
         }
         if(LangsUsed & 2)
         {
