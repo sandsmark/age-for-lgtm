@@ -1,7 +1,8 @@
 #include "../AGE_Frame.h"
-#include "../DRSunlock.xpm"
-#include "../DRSlock.xpm"
-#include "../graphics.xpm"
+
+#include "../icons/DRSunlock.xpm"
+#include "../icons/DRSlock.xpm"
+#include "../icons/graphics.xpm"
 
 #include <iostream>
 

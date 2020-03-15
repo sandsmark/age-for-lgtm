@@ -1,5 +1,6 @@
 #include "AGE_AboutDialog.h"
-#include "AppIcon64.xpm"
+
+#include "icons/AppIcon64.xpm"
 
 const wxString AGE_AboutDialog::AGE_VER = "2019.11.22.martin";
 
