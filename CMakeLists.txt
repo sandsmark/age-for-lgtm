@@ -83,7 +83,7 @@ if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/extern/genieutils/include/genie/Types.h)
     message(STATUS "Using bundled genieutils")
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/extern/genieutils/include/)
 
-    set(GENIEUTILS_STATIC_BUILD True)
+    set(GUTILS_STATIC True)
     add_subdirectory(extern/genieutils)
 endif()
 
