@@ -116,6 +116,14 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *sl
 #ifdef WIN32
     Button_PathFromRegistry->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenSave::OnPathFromRegistry, this);
 #endif
+
+
+    Main->Add(Defaults, 0, wxALIGN_LEFT | wxTOP | wxLEFT | wxRIGHT, 5);
+    Main->Add(Defaults_StarWars, 0, wxALIGN_LEFT | wxBOTTOM | wxLEFT | wxRIGHT, 5);
+    Main->Add(Layout, 1, wxEXPAND | wxALL, 5);
+    Main->Add(Buttons, 0, wxALIGN_RIGHT | wxALL, 5);
+
+    SetSizer(Main);
 }
 
 void AGE_OpenSave::OnRecent(wxCommandEvent &event)

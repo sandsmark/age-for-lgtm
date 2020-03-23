@@ -49,7 +49,7 @@ public:
     AGE_List32Box() {}
     virtual ~AGE_List32Box() {}
 
-    wxStaticBoxSizer *ItemList;
+    wxStaticBoxSizer *ItemList = nullptr;
     wxTextCtrl *Search, *SearchRecursive;
     ProperList *List;
     AGETextCtrl *Item;
@@ -59,6 +59,9 @@ public:
     void CreateControls(wxFrame* frame, DelayedPopUp *popUp, AScrolled* scroller, const wxString &itemName,
         const wxString &listName, wxArrayString *choices)
     {
+        if (ItemList) {
+            delete ItemList;
+        }
         ItemList = new wxStaticBoxSizer(wxVERTICAL, scroller, listName);
         Search = new wxTextCtrl(scroller, wxID_ANY);
         SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
@@ -102,7 +105,7 @@ public:
     AGE_AreaTT84() {}
     virtual ~AGE_AreaTT84() {}
 
-    wxStaticBoxSizer *Area;
+    wxStaticBoxSizer *Area = nullptr;
     wxTextCtrl *Search, *SearchRecursive;
     ProperList *List;
     AGETextCtrl *Item, *Mode, *UsedItems;
@@ -113,6 +116,9 @@ public:
     void CreateControls(wxFrame* frame, DelayedPopUp *popUp, AScrolled* scroller, const wxString &itemName,
         wxArrayString *choices)
     {
+        if (Area) {
+            delete Area;
+        }
         Area = new wxStaticBoxSizer(wxVERTICAL, scroller, "Connected Items");
         ItemList = new wxBoxSizer(wxVERTICAL);
         UsedItems_H = new wxBoxSizer(wxVERTICAL);
@@ -167,7 +173,7 @@ public:
     AGE_AreaTT31020() {}
     virtual ~AGE_AreaTT31020() {}
 
-    wxStaticBoxSizer *Area;
+    wxStaticBoxSizer *Area = nullptr;
     wxTextCtrl *Search, *SearchRecursive;
     ProperList *List;
     AGETextCtrl *Unknown1, *Unknown2, *UsedItems, *Unknown;
@@ -175,6 +181,10 @@ public:
 
     void CreateControls(wxFrame* frame, DelayedPopUp *popUp, AScrolled* scroller)
     {
+        if (Area) {
+            delete Area;
+        }
+
         Area = new wxStaticBoxSizer(wxVERTICAL, scroller, "Unused Zone Data");
         ItemList = new wxBoxSizer(wxVERTICAL);
         Top = new wxBoxSizer(wxHORIZONTAL);

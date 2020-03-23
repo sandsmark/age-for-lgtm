@@ -35,12 +35,8 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent, const wxFont &font)
     Layout->AddGrowableCol(1, 1);
     Layout->AddGrowableRow(11, 1);
 
-    Main->Add(Defaults, 0, wxALIGN_LEFT | wxTOP | wxLEFT | wxRIGHT, 5);
-    Main->Add(Defaults_StarWars, 0, wxALIGN_LEFT | wxBOTTOM | wxLEFT | wxRIGHT, 5);
-    Main->Add(Layout, 1, wxEXPAND | wxALL, 5);
-    Main->Add(Buttons, 0, wxALIGN_RIGHT | wxALL, 5);
+    Fit();
 
-    SetSizerAndFit(Main);
     ButtonOK->SetDefault();
     ButtonOK->SetFocus();
 }

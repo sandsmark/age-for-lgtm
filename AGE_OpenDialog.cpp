@@ -58,13 +58,8 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, const wxFont &font)
     Layout->AddGrowableCol(1, 1);
     Layout->AddGrowableRow(17, 1);
 
-    Main->Add(Defaults, 0, wxALIGN_LEFT | wxTOP | wxLEFT | wxRIGHT, 5);
-    Main->Add(Defaults_StarWars, 0, wxALIGN_LEFT | wxBOTTOM | wxLEFT | wxRIGHT, 5);
-    Main->Add(Layout, 1, wxEXPAND | wxALL, 5);
-    Main->Add(Buttons, 0, wxALIGN_RIGHT | wxALL, 5);
-
     TerrainsBox->Enable(false);
-    SetSizerAndFit(Main);
+    Fit();
 
     Button_RawDecompress->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
     {
