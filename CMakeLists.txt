@@ -117,18 +117,25 @@ set(AGE_SRC Main.cpp
     AGE_Frame/UnitLine.cpp
     AGE_Frame/Units.cpp
 
-    Resources.rc
+    wintendo/Resources.rc
+    )
+
+add_executable(AdvancedGenieEditor3 ${AGE_SRC})
+
+set(ALL_LIBRARIES
+    genieutils sfml-system sfml-audio
     )
 
 if(WIN32)
+    # WinMain dumbness
+    set_property(TARGET AdvancedGenieEditor3 PROPERTY WIN32_EXECUTABLE true)
+
     include_directories(extern/genieutils/extern/win-iconv/)
 
-    add_executable(AdvancedGenieEditor3 WIN32 ${AGE_SRC})
-    target_link_libraries(AdvancedGenieEditor3 ${wxWidgets_LIBRARIES} genieutils psapi sfml-system sfml-audio)
+    target_link_libraries(AdvancedGenieEditor3 ${wxWidgets_LIBRARIES} ${ALL_LIBRARIES} genieutils psapi)
 else()
     set(CMAKE_CXX_FLAGS "-Wall -Wno-sign-compare")
-    add_executable(AdvancedGenieEditor3 ${AGE_SRC})
-    target_link_libraries(AdvancedGenieEditor3 ${wxWidgets_LIBRARIES} genieutils sfml-system sfml-audio stdc++fs)
+    target_link_libraries(AdvancedGenieEditor3 ${wxWidgets_LIBRARIES} ${ALL_LIBRARIES} stdc++fs)
 endif()
 
 install(TARGETS AdvancedGenieEditor3 DESTINATION bin)
