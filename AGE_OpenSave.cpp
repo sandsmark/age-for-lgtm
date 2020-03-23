@@ -78,10 +78,6 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *sl
     wxSizer *sizer1 = new wxBoxSizer(wxHORIZONTAL);
     wxSizer *sizer2 = new wxBoxSizer(wxHORIZONTAL);
 
-    CheckBox_LangFileLocation = new AGE_PairedCheckBox(slave, "Language file location:", (wxWindow**)&Path_LangFileLocation);
-    CheckBox_LangX1FileLocation = new AGE_PairedCheckBox(slave, "Language x1 file location:", (wxWindow**)&Path_LangX1FileLocation);
-    CheckBox_LangX1P1FileLocation = new AGE_PairedCheckBox(slave, "Language p1 file location:", (wxWindow**)&Path_LangX1P1FileLocation);
-
     Layout->Add(RecentText, 1, wxEXPAND);
     Layout->Add(CheckBox_Recent, 1, wxEXPAND);
     Layout->Add(Text_GenieVer, 1, wxEXPAND);

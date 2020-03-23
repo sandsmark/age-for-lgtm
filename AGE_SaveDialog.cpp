@@ -8,6 +8,11 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent, const wxFont &font)
     Path_LangFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "DLL or text (*.dll, *.txt)|*.dll;*.txt", wxDefaultPosition, wxDefaultSize, wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
     Path_LangX1FileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "DLL or text (*.dll, *.txt)|*.dll;*.txt", wxDefaultPosition, wxDefaultSize, wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
     Path_LangX1P1FileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "DLL or text (*.dll, *.txt)|*.dll;*.txt", wxDefaultPosition, wxDefaultSize, wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
+
+    CheckBox_LangFileLocation = new AGE_PairedCheckBox(this, "Language file location:", (wxWindow**)&Path_LangFileLocation);
+    CheckBox_LangX1FileLocation = new AGE_PairedCheckBox(this, "Language x1 file location:", (wxWindow**)&Path_LangX1FileLocation);
+    CheckBox_LangX1P1FileLocation = new AGE_PairedCheckBox(this, "Language p1 file location:", (wxWindow**)&Path_LangX1P1FileLocation);
+
     CheckBox_LangWrite = new wxCheckBox(this, wxID_ANY, "Save language files *");
     CheckBox_LangWrite->SetToolTip("WARNING! This feature is still experimental");
     SyncWithReadPaths = new wxCheckBox(this, wxID_ANY, "Sync with read paths");
