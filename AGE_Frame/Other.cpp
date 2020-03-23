@@ -3775,11 +3775,22 @@ wxString AGE_Frame::TranslatedText(int ID, int letters)
     }
     else
     {
+#ifdef WIN32
         if(sizeof(size_t) > 4 || WriteLangs)
+#else
+        if (true) // hackish
+#endif
+
         {
-            if(LangsUsed & 4 && !(result = LangXP->getString(ID)).empty()){}
-            else if(LangsUsed & 2 && !(result = LangX->getString(ID)).empty()){}
-            else if(LangsUsed & 1 && !(result = Lang->getString(ID)).empty()){}
+            if (LangsUsed & 4) {
+                result = LangXP->getString(ID);
+            }
+            if (result.empty() && LangsUsed & 2) {
+                result = LangX->getString(ID);
+            }
+            if (result.empty() && LangsUsed & 1) {
+                result = Lang->getString(ID);
+            }
         }
         else // Does not work when building as 64-bit
         {

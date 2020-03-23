@@ -5950,7 +5950,7 @@ void AGE_Frame::CreateUnitControls()
 
         wxBusyCursor WaitCursor;
         int UnitCivID = Units_Civs_List->GetSelection();
-        for(short sel = 0; sel < selections; ++sel)
+        for(size_t sel = 0; sel < selections; ++sel)
         {
             // Find the correct sizes for subvectors.
             short UnitType = 10, DamageGraphics = 0, Attacks = 0, Armors = 0, Commands = 0;
@@ -6013,7 +6013,7 @@ void AGE_Frame::CreateUnitControls()
 
         wxBusyCursor WaitCursor;
         int UnitCivID = Units_Civs_List->GetSelection();
-        for(short sel = 0; sel < selections; ++sel)
+        for(size_t sel = 0; sel < selections; ++sel)
         {
             if(Units_SpecialCopy_Civs->GetValue())
             for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
