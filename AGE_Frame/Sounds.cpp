@@ -166,15 +166,16 @@ wxString AGE_Frame::GetSoundItemName(int item, int set)
             case 2: // Probability
                 Name += "P% "+FormatInt(dataset->Sounds[set].Items[item].Probability);
                 break;
-            if(GenieVersion >= genie::GV_AoKE3)
-            {
             case 3: // Civilization
-                Name += "C "+FormatInt(dataset->Sounds[set].Items[item].Civilization);
+                if(GenieVersion >= genie::GV_AoKE3) {
+                    Name += "C "+FormatInt(dataset->Sounds[set].Items[item].Civilization);
+                }
                 break;
             case 4: // Unknown
-                Name += "PI "+FormatInt(dataset->Sounds[set].Items[item].IconSet);
+                if(GenieVersion >= genie::GV_AoKE3) {
+                    Name += "PI "+FormatInt(dataset->Sounds[set].Items[item].IconSet);
+                }
                 break;
-            }
         }
         Name += ", ";
         if(Selection[1] < 1) break;
