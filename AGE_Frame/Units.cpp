@@ -506,8 +506,10 @@ void AGE_Frame::PrepUnitSearch()
         else if(label.compare(Type40[3]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF40 "DS " + FormatInt(unit_ptr->Action.DropSite.first) + " "
-                    + FormatInt(unit_ptr->Action.DropSite.second);
+            wxString name = "DS";
+            for(size_t i = 0; i < unit_ptr->Action.DropSites.size(); ++i)
+            name += " " + FormatInt(unit_ptr->Action.DropSites[i]) + " ";
+            return UF40 name;
         });
         else if(label.compare(Type40[4]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -1200,8 +1202,10 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
                     Units_DefaultTaskID->prepend(&UnitPointer->Action.DefaultTaskID);
                     Units_SearchRadius->prepend(&UnitPointer->Action.SearchRadius);
                     Units_WorkRate->prepend(&UnitPointer->Action.WorkRate);
-                    Units_DropSite[0]->prepend(&UnitPointer->Action.DropSite.first);
-                    Units_DropSite[1]->prepend(&UnitPointer->Action.DropSite.second);
+                    for(size_t i = 0; i < UnitPointer->Action.DropSites.size(); ++i)
+                    {
+                        Units_DropSite[i]->prepend(&UnitPointer->Action.DropSites[i]);
+                    }
                     Units_TaskSwapGroup->prepend(&UnitPointer->Action.TaskSwapGroup);
                     Units_AttackSound->prepend(&UnitPointer->Action.AttackSound);
                     Units_MoveSound->prepend(&UnitPointer->Action.MoveSound);
@@ -1519,7 +1523,7 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
     ListUnitDamageGraphics();
     ListUnitAttacks();
     ListUnitArmors();
-    if(GenieVersion >= genie::GV_AoK)   // AoK, TC, SWGB or CC
+    if(GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2)) // AoK, TC, SWGB or CC
     {
         genie::UnitHeader * UnitHeadPointer;
         for(auto sel = selections; sel--> 0;)
@@ -1574,7 +1578,7 @@ int AGE_Frame::loadChosenGraphic(unsigned int unitID)
     if(slp_unit_actions->GetSelection() && CommandIDs.size())
     {
         genie::Task *action = 0;
-        if(GenieVersion >= genie::GV_AoK)
+        if(GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2))
         {
             if(CommandIDs.front() < dataset->UnitHeaders[unitID].TaskList.size())
             action = &dataset->UnitHeaders[unitID].TaskList[CommandIDs.front()];
@@ -1805,7 +1809,7 @@ void AGE_Frame::PasteUnits(bool OneOnOne)
     if(copies.Dat.AllCivs & 0x08) // Paste from AoE to AoK+
     {
         // Paste commands properly
-        if(GenieVersion >= genie::GV_AoK)
+        if(GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2))
         {
             if(copies.Dat.AllCivs & 0x01)
             {
@@ -1826,7 +1830,7 @@ void AGE_Frame::PasteUnits(bool OneOnOne)
             wxMessageBox("Please select All civs from the bottom!", "Ouch!");
         }
     }
-    else if(GenieVersion < genie::GV_AoK) // Paste from AoK+ to AoE
+    else if(GenieVersion < genie::GV_AoK || (GenieVersion >= genie::GV_C15 && GenieVersion <= genie::GV_LatestDE2)) // Paste from AoK+ to AoE
     {
         for(size_t loop = 0; loop < copies.UnitHeader.size(); ++loop)
         {
@@ -2607,11 +2611,10 @@ void AGE_Frame::OnUnitArmorsCopyToUnits(wxCommandEvent &event)
 
 wxString AGE_Frame::GetUnitCommandName(int index)
 {
-    const short CommandType = short((GenieVersion >= genie::GV_AoK)
+    const short CommandType = short((GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2))
             ? dataset->UnitHeaders[UnitIDs.front()].TaskList[index].ActionType
             : dataset->Civs[UnitCivID].Units[UnitIDs.front()].Action.TaskList[index].ActionType
         );
-    //return genie::Task::actionTypeName(int16_t(CommandType));
     switch(CommandType)
     {
         case 0: return task_names[1];
@@ -2676,7 +2679,8 @@ void AGE_Frame::ListUnitCommands()
     action_names.Clear();
     action_names.Add("-1 - None");
 
-    if(GenieVersion >= genie::GV_AoK)   // AoK, TC, SWGB or CC
+    // AoK, TC, SWGB or CC
+    if(GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2))
     {
         if(Units_ListV->GetSelectedCount())
         for(size_t loop = 0; loop < dataset->UnitHeaders[UnitIDs.front()].TaskList.size(); ++loop)
@@ -2694,7 +2698,7 @@ void AGE_Frame::ListUnitCommands()
             action_names.Add(Name);
         }
     }
-    else    // AoE or RoR
+    else    // AoE or RoR or AoK DE
     {
         if(Units_ListV->GetSelectedCount()
         && dataset->Civs[UnitCivID].UnitPointers[UnitIDs.front()] != 0
@@ -2740,13 +2744,14 @@ void AGE_Frame::OnUnitCommandSelect(wxCommandEvent &event)
         getSelectedItems(selections, Units_Tasks_ListV, CommandIDs);
 
         bool showWarning = false;
+        bool uniqueTasks = (GenieVersion < genie::GV_AoK || (GenieVersion >= genie::GV_C15 && GenieVersion <= genie::GV_LatestDE2));
         wxString warning = "Command count of civs\n";
         genie::Task * task_ptr = 0;
         for(auto sel = selections; sel--> 0;)
         {
-            for(short vecCiv = (GenieVersion < genie::GV_AoK) ? SelectedCivs.size() : 1; vecCiv--> 0;)
+            for(short vecCiv = uniqueTasks ? SelectedCivs.size() : 1; vecCiv--> 0;)
             {
-                if(GenieVersion < genie::GV_AoK)
+                if(uniqueTasks)
                 {
                     if(sel == 0 && dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].Action.TaskList.size() != dataset->Civs[UnitCivID].Units[UnitIDs.front()].Action.TaskList.size())
                     {
@@ -2864,7 +2869,7 @@ void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent &event)
     wxBusyCursor WaitCursor;
     genie::Task Temp;
     Temp.setGameVersion(GenieVersion);
-    if(GenieVersion >= genie::GV_AoK)
+    if(GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2))
     {
         dataset->UnitHeaders[UnitIDs.front()].TaskList.push_back(Temp);
         dataset->UnitHeaders[UnitIDs.front()].TaskList[dataset->UnitHeaders[UnitIDs.front()].TaskList.size()-1].ID = (int16_t)(dataset->UnitHeaders[UnitIDs.front()].TaskList.size()-1); // ID Fix
@@ -2891,7 +2896,7 @@ void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent &event)
     wxBusyCursor WaitCursor;
     genie::Task Temp;
     Temp.setGameVersion(GenieVersion);
-    if(GenieVersion >= genie::GV_AoK)
+    if(GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2))
     {
         dataset->UnitHeaders[UnitIDs.front()].TaskList.insert(dataset->UnitHeaders[UnitIDs.front()].TaskList.begin() + CommandIDs.front(), Temp);
         for(size_t loop2 = CommandIDs.front();loop2 < dataset->UnitHeaders[UnitIDs.front()].TaskList.size(); ++loop2) // ID Fix
@@ -2919,7 +2924,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent &event)
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    if(GenieVersion >= genie::GV_AoK)
+    if(GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2))
     {
         for(auto loop = selections; loop--> 0;)
         dataset->UnitHeaders[UnitIDs.front()].TaskList.erase(dataset->UnitHeaders[UnitIDs.front()].TaskList.begin() + CommandIDs[loop]);
@@ -2949,7 +2954,7 @@ void AGE_Frame::OnUnitCommandsCopy(wxCommandEvent &event)
     if(!Units_Tasks_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
-    if(GenieVersion >= genie::GV_AoK)
+    if(GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2))
     {
         copies.Dat.AllCivs |= 0x80;
         copies.Dat.UnitCommandExists.resize(0);
@@ -2993,7 +2998,7 @@ void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent &event)
     if(!Units_Tasks_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
-    if(GenieVersion >= genie::GV_AoK)
+    if(GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2))
     {
         PasteToListIDFix(dataset->UnitHeaders[UnitIDs.front()].TaskList, CommandIDs, copies.Dat.UnitCommands.front());
     }
@@ -3030,7 +3035,7 @@ void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent &event)
     if(!Units_Tasks_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
-    if(GenieVersion >= genie::GV_AoK)
+    if(GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2))
     {
         PasteInsertToListIDFix(dataset->UnitHeaders[UnitIDs.front()].TaskList, CommandIDs.front(), copies.Dat.UnitCommands.front());
     }
@@ -3064,7 +3069,7 @@ void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitCommandsCopyToUnits(wxCommandEvent &event)
 {
-    if(GenieVersion < genie::GV_AoK)
+    if(GenieVersion < genie::GV_AoK || (GenieVersion >= genie::GV_C15 && GenieVersion <= genie::GV_LatestDE2))
     {
         for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
         for(size_t loop=1; loop < UnitIDs.size(); ++loop)
@@ -3241,7 +3246,7 @@ void AGE_Frame::CreateUnitControls()
     Units_SoundsArea2_Grid = new wxBoxSizer(wxHORIZONTAL);
     Units_Obsoletes_Holder = new wxFlexGridSizer(5, 5, 5);
     Units_Obsoletes_Area = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Obsolete Variables");
-    TasksArea_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Tasks (Shared by all civilizations since Age of Empires II)");
+    TasksArea_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Tasks (Shared by all civilizations in legacy Age of Empires II and Star Wars Galactic Battlegrounds)");
 
 //  Invisible Holder Windows
 //  Type 10+
@@ -3347,7 +3352,7 @@ void AGE_Frame::CreateUnitControls()
     Units_DefaultTaskID_Holder = new wxBoxSizer(wxVERTICAL);
     Units_SearchRadius_Holder = new wxBoxSizer(wxVERTICAL);
     Units_WorkRate_Holder = new wxBoxSizer(wxVERTICAL);
-    Units_DropSite_Grid = new wxGridSizer(2, 0, 5);
+    Units_DropSite_Grid = new wxGridSizer(3, 0, 5);
     Units_TaskSwapGroup_Holder = new wxBoxSizer(wxVERTICAL);
     Units_AttackSound_Holder = new wxBoxSizer(wxVERTICAL);
     Units_MoveSound_Holder = new wxBoxSizer(wxVERTICAL);
@@ -4038,7 +4043,7 @@ void AGE_Frame::CreateUnitControls()
     Units_DefaultTaskID = AGETextCtrl::init(CShort, &uiGroupUnit, this, &popUp, Units_Scroller);
     Units_DefaultTaskID->SetToolTip("Unit task ID executed when idle.\nTo get the unit auto-converted to enemy,\nuse unit command 107, which sheep and monument have.");
     Units_DefaultTaskID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_DefaultTaskID, &action_names);
-    for(size_t loop = 0; loop < 2; ++loop)
+    for(size_t loop = 0; loop < 3; ++loop)
     {
         Units_DropSite[loop] = AGETextCtrl::init(CShort, &uiGroupUnit, this, &popUp, Units_Scroller);
         Units_DropSite[loop]->SetToolTip("Giving to a villager drop site to cart-like unit\ncan allow you to have mobile resource-gatherers,\nsimilar to those in Age of Mythology.");
@@ -4882,10 +4887,10 @@ void AGE_Frame::CreateUnitControls()
     Units_DefaultTaskID_Holder->Add(Units_DefaultTaskID_ComboBox);
     Units_SearchRadius_Holder->Add(Units_SearchRadius);
     Units_WorkRate_Holder->Add(Units_WorkRate);
-    Units_DropSite_Grid->Add(Units_DropSite[0], 0, wxEXPAND);
-    Units_DropSite_Grid->Add(Units_DropSite[1], 0, wxEXPAND);
-    Units_DropSite_Grid->Add(Units_DropSite_ComboBox[0]);
-    Units_DropSite_Grid->Add(Units_DropSite_ComboBox[1]);
+    for(size_t loop = 0; loop < 3; ++loop)
+    Units_DropSite_Grid->Add(Units_DropSite[loop], 0, wxEXPAND);
+    for(size_t loop = 0; loop < 3; ++loop)
+    Units_DropSite_Grid->Add(Units_DropSite_ComboBox[loop]);
     Units_TaskSwapGroup_Holder->Add(Units_TaskSwapGroup);
     Units_AttackSound_Holder->Add(Units_WwiseAttackSound, 0, wxEXPAND);
     Units_AttackSound_Holder->Add(Units_AttackSound, 0, wxEXPAND);
@@ -5600,7 +5605,7 @@ void AGE_Frame::CreateUnitControls()
         if(!dataset) return;
 
         wxBusyCursor WaitCursor;
-        if(GenieVersion >= genie::GV_AoK)   // AoK, TC, SWGB or CC
+        if(GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2)) // AoK, TC, SWGB or CC
         {
             genie::UnitHeader Temp1;
             Temp1.setGameVersion(GenieVersion);
@@ -5630,7 +5635,7 @@ void AGE_Frame::CreateUnitControls()
         if(selections < 1) return;
 
         wxBusyCursor WaitCursor;
-        if(GenieVersion >= genie::GV_AoK)   // AoK, TC, SWGB or CC
+        if(GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2))   // AoK, TC, SWGB or CC
         {
             genie::UnitHeader Temp1;
             Temp1.setGameVersion(GenieVersion);
@@ -5661,7 +5666,7 @@ void AGE_Frame::CreateUnitControls()
         if(selections < 1) return;
 
         wxBusyCursor WaitCursor;
-        if(GenieVersion >= genie::GV_AoK)
+        if(GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2))
         {
             for(auto loop = selections; loop--> 0;)
             dataset->UnitHeaders.erase(dataset->UnitHeaders.begin() + UnitIDs[loop]);
@@ -5692,7 +5697,7 @@ void AGE_Frame::CreateUnitControls()
         if(selections < 1) return;
 
         wxBusyCursor WaitCursor;
-        if(GenieVersion < genie::GV_AoK)
+        if(GenieVersion < genie::GV_AoK || (GenieVersion >= genie::GV_C15 && GenieVersion <= genie::GV_LatestDE2))
         {
             copies.Dat.AllCivs |= 0x08;
         }
@@ -5836,7 +5841,7 @@ void AGE_Frame::CreateUnitControls()
         {
             if(Paste11Check(UnitIDs.size(), copies.Dat.UnitExists.front().size()))
             {
-                if(GenieVersion >= genie::GV_AoK)
+                if(GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2))
                 {
                     for(size_t loop = 0; loop < copies.UnitHeader.size(); ++loop)
                     {
@@ -5863,7 +5868,7 @@ void AGE_Frame::CreateUnitControls()
         }
         else
         {
-            if(GenieVersion >= genie::GV_AoK)
+            if(GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2))
             {
                 if(copies.UnitHeader.size()+UnitIDs.front() > dataset->UnitHeaders.size())
                 dataset->UnitHeaders.resize(copies.UnitHeader.size()+UnitIDs.front());
@@ -5907,7 +5912,7 @@ void AGE_Frame::CreateUnitControls()
         if(!Units_ListV->GetSelectedCount() || copies.Dat.UnitExists.size() == 0) return;
 
         wxBusyCursor WaitCursor;
-        if(GenieVersion >= genie::GV_AoK)
+        if(GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2))
         {
             genie::UnitHeader Temp1;
             dataset->UnitHeaders.insert(dataset->UnitHeaders.begin() + UnitIDs.front(), copies.UnitHeader.size(), Temp1);
@@ -5962,7 +5967,6 @@ void AGE_Frame::CreateUnitControls()
                     DamageGraphics = dataset->Civs[civ].Units[UnitIDs[sel]].DamageGraphics.size();
                     Attacks = dataset->Civs[civ].Units[UnitIDs[sel]].Combat.Attacks.size();
                     Armors = dataset->Civs[civ].Units[UnitIDs[sel]].Combat.Armours.size();
-                    if(GenieVersion < genie::GV_AoK)
                     Commands = dataset->Civs[civ].Units[UnitIDs[sel]].Action.TaskList.size();
                     break;
                 }
