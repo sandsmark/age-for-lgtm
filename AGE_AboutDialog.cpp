@@ -2,6 +2,8 @@
 
 #include "icons/AppIcon64.xpm"
 
+#include <filesystem>
+
 const wxString AGE_AboutDialog::AGE_VER = "2020.3.30.martin";
 
 AGE_AboutDialog::AGE_AboutDialog(wxWindow *parent, const wxFont &font)
@@ -124,9 +126,14 @@ genie::SlpFilePtr LoadSLP(const string &filename)
     genie::SlpFilePtr slp = slp_cache_resname.use(filename);
     if(!slp)
     {
+        if (!std::filesystem::exists(filename))
+        {
+            return genie::SlpFilePtr();
+        }
+
         try
         {
-            slp.reset(new genie::SlpFile(0));
+            slp.reset(new genie::SlpFile(std::filesystem::file_size(filename)));
             slp->load(string(filename.c_str()));
             slp->freelock();
             slp_cache_resname.put(filename, slp);
