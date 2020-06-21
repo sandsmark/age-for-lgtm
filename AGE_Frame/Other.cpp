@@ -5,6 +5,7 @@
 #include "../icons/graphics.xpm"
 
 #include <iostream>
+#include <genie/util/Utility.h>
 
 float AGE_SLP::bearing = 0.f;
 unsigned AGE_SLP::setbearing = 0u;
@@ -2881,7 +2882,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                     }
 
                     m_icmFile = std::make_unique<genie::IcmFile>();
-                    m_icmFile->load(FolderDRS.ToStdString() + "/view_icm.dat");
+                    m_icmFile->load(genie::util::resolvePathCaseInsensitive(FolderDRS.ToStdString() + "/view_icm.dat"));
                 }
                 if(slp_window) slp_view->Refresh();
                 Units_IconID_SLP->Refresh();
@@ -3304,7 +3305,7 @@ bool AGE_Frame::loadPalette(const wxString &folder)
     wxString name = folder + "/interface/50500.bina";
     try
     {
-        pal.load(string(name));
+        pal.load(genie::util::resolvePathCaseInsensitive(string(name)));
         palettes.push_back(pal.getColors());
         return true;
     }
@@ -3315,14 +3316,13 @@ bool AGE_Frame::loadPalette(const wxString &folder)
 void AGE_Frame::addFilesToRead(const wxArrayString &files, const wxString &folder)
 {
     if(folder.empty() || !wxDir::Exists(folder)) return;
-    for(int i=0; i < files.size(); ++i)
-    {
+    for(size_t i=0; i < files.size(); ++i) {
         genie::DrsFile *interfac = new genie::DrsFile();
         wxString location = folder + files[i];
         interfac->setGameVersion(GenieVersion);
         try
         {
-            interfac->load(string(location));
+            interfac->load(genie::util::resolvePathCaseInsensitive(string(location)));
             datafiles.push_back(interfac);
         }
         catch(const std::ios_base::failure&)
