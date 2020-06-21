@@ -2211,7 +2211,6 @@ void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent &event)
 
     wxBusyCursor WaitCursor;
     genie::unit::AttackOrArmor Temp;
-    Temp.setGameVersion(GenieVersion);
     for(size_t loop = 0; loop < dataset->Civs.size(); ++loop)
     {
         if(dataset->Civs[loop].UnitPointers[UnitIDs.front()] != 0)
@@ -2227,7 +2226,6 @@ void AGE_Frame::OnUnitAttacksInsert(wxCommandEvent &event)
 
     wxBusyCursor WaitCursor;
     genie::unit::AttackOrArmor Temp;
-    Temp.setGameVersion(GenieVersion);
     for(size_t loop = 0; loop < dataset->Civs.size(); ++loop)
     {
         if(dataset->Civs[loop].UnitPointers[UnitIDs.front()] != 0)
@@ -2308,17 +2306,17 @@ void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent &event)
             // If the target unit exists then choose from following.
             if(copies.Dat.UnitAttackExists[civ] > 255 && copy < copies.Dat.UnitAttacks.size())
             {
-                PasteToList(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Attacks, AttackIDs, copies.Dat.UnitAttacks[copy]); ++copy;
+                PasteToListNoGV(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Attacks, AttackIDs, copies.Dat.UnitAttacks[copy]); ++copy;
             }
             else
             {
-                PasteToList(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Attacks, AttackIDs, copies.Dat.UnitAttacks.front());
+                PasteToListNoGV(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Attacks, AttackIDs, copies.Dat.UnitAttacks.front());
             }
         }
     }
     else
     {
-        PasteToList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Combat.Attacks, AttackIDs, copies.Dat.UnitAttacks.front());
+        PasteToListNoGV(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Combat.Attacks, AttackIDs, copies.Dat.UnitAttacks.front());
     }
     ListUnitAttacks();
 }
@@ -2341,17 +2339,17 @@ void AGE_Frame::OnUnitAttacksPasteInsert(wxCommandEvent &event)
             // If the target unit exists then choose from following.
             if(copies.Dat.UnitAttackExists[civ] > 255 && copy < copies.Dat.UnitAttacks.size())
             {
-                PasteInsertToList(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Attacks, AttackIDs.front(), copies.Dat.UnitAttacks[copy]); copy++;
+                PasteInsertToListNoGV(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Attacks, AttackIDs.front(), copies.Dat.UnitAttacks[copy]); copy++;
             }
             else
             {
-                PasteInsertToList(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Attacks, AttackIDs.front(), copies.Dat.UnitAttacks.front());
+                PasteInsertToListNoGV(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Attacks, AttackIDs.front(), copies.Dat.UnitAttacks.front());
             }
         }
     }
     else
     {
-        PasteInsertToList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Combat.Attacks, AttackIDs.front(), copies.Dat.UnitAttacks.front());
+        PasteInsertToListNoGV(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Combat.Attacks, AttackIDs.front(), copies.Dat.UnitAttacks.front());
     }
     ListUnitAttacks();
 }
@@ -2453,7 +2451,6 @@ void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent &event)
 
     wxBusyCursor WaitCursor;
     genie::unit::AttackOrArmor Temp;
-    Temp.setGameVersion(GenieVersion);
     for(size_t loop = 0; loop < dataset->Civs.size(); ++loop)
     {
         if(dataset->Civs[loop].UnitPointers[UnitIDs.front()] != 0)
@@ -2469,7 +2466,6 @@ void AGE_Frame::OnUnitArmorsInsert(wxCommandEvent &event)
 
     wxBusyCursor WaitCursor;
     genie::unit::AttackOrArmor Temp;
-    Temp.setGameVersion(GenieVersion);
     for(size_t loop = 0; loop < dataset->Civs.size(); ++loop)
     {
         if(dataset->Civs[loop].UnitPointers[UnitIDs.front()] != 0)
@@ -2550,17 +2546,17 @@ void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent &event)
             // If the target unit exists then choose from following.
             if(copies.Dat.UnitArmorExists[civ] > 255 && copy < copies.Dat.UnitArmors.size())
             {
-                PasteToList(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Armours, ArmorIDs, copies.Dat.UnitArmors[copy]); ++copy;
+                PasteToListNoGV(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Armours, ArmorIDs, copies.Dat.UnitArmors[copy]); ++copy;
             }
             else
             {
-                PasteToList(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Armours, ArmorIDs, copies.Dat.UnitArmors.front());
+                PasteToListNoGV(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Armours, ArmorIDs, copies.Dat.UnitArmors.front());
             }
         }
     }
     else
     {
-        PasteToList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Combat.Armours, ArmorIDs, copies.Dat.UnitArmors.front());
+        PasteToListNoGV(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Combat.Armours, ArmorIDs, copies.Dat.UnitArmors.front());
     }
     ListUnitArmors();
 }
@@ -2583,17 +2579,17 @@ void AGE_Frame::OnUnitArmorsPasteInsert(wxCommandEvent &event)
             // If the target unit exists then choose from following.
             if(copies.Dat.UnitArmorExists[civ] > 255 && copy < copies.Dat.UnitArmors.size())
             {
-                PasteInsertToList(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Armours, ArmorIDs.front(), copies.Dat.UnitArmors[copy]); copy++;
+                PasteInsertToListNoGV(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Armours, ArmorIDs.front(), copies.Dat.UnitArmors[copy]); copy++;
             }
             else
             {
-                PasteInsertToList(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Armours, ArmorIDs.front(), copies.Dat.UnitArmors.front());
+                PasteInsertToListNoGV(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Armours, ArmorIDs.front(), copies.Dat.UnitArmors.front());
             }
         }
     }
     else
     {
-        PasteInsertToList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Combat.Armours, ArmorIDs.front(), copies.Dat.UnitArmors.front());
+        PasteInsertToListNoGV(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Combat.Armours, ArmorIDs.front(), copies.Dat.UnitArmors.front());
     }
     ListUnitArmors();
 }
