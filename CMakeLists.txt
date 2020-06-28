@@ -6,6 +6,7 @@ else()
 endif()
 
 set (CMAKE_CXX_STANDARD 20)
+set(CXX_STANDARD_REQUIRED ON)
 
 project(AdvancedGenieEditor3)
 
