@@ -151,8 +151,8 @@ void AGE_Frame::OnMapsRefresh(wxCommandEvent &event)
         {
             General_SUnknown2->prepend(&dataset->SUnknown2);
             General_SUnknown3->prepend(&dataset->SUnknown3);
-            General_SUnknown4->prepend(&dataset->SUnknown4);
-            General_SUnknown5->prepend(&dataset->SUnknown5);
+            General_SWGBBlendModes->prepend(&dataset->swgbBlendModes);
+            General_SWGBMaxBlendModes->prepend(&dataset->swgbMaxBlendmodes);
             General_SUnknown7->prepend(&dataset->SUnknown7);
             General_SUnknown8->prepend(&dataset->SUnknown8);
         }
@@ -186,14 +186,14 @@ void AGE_Frame::CreateGeneralControls()
     General_SUnknown3_Text = new SolidText(General_Scroller, " Unkown 3 *");
     General_SUnknown3 = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
     General_SUnknown3->SetToolTip(SWUNKNOWNSINFO);
-    General_SUnknown4_Holder = new wxBoxSizer(wxVERTICAL);
-    General_SUnknown4_Text = new SolidText(General_Scroller, " Unkown 4 *");
-    General_SUnknown4 = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
-    General_SUnknown4->SetToolTip(SWUNKNOWNSINFO);
-    General_SUnknown5_Holder = new wxBoxSizer(wxVERTICAL);
-    General_SUnknown5_Text = new SolidText(General_Scroller, " Unkown 5 *");
-    General_SUnknown5 = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
-    General_SUnknown5->SetToolTip(SWUNKNOWNSINFO);
+    General_SWGBBlendModes_Holder = new wxBoxSizer(wxVERTICAL);
+    General_SWGBBlendModes_Text = new SolidText(General_Scroller, " SWGB Blend Modes *");
+    General_SWGBBlendModes = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
+    General_SWGBBlendModes->SetToolTip(SWUNKNOWNSINFO);
+    General_SWGBMaxBlendModes_Holder = new wxBoxSizer(wxVERTICAL);
+    General_SWGBMaxBlendModes_Text = new SolidText(General_Scroller, " SWGB Max Blend Modes *");
+    General_SWGBMaxBlendModes = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
+    General_SWGBMaxBlendModes->SetToolTip(SWUNKNOWNSINFO);
     General_SUnknown7_Holder = new wxBoxSizer(wxVERTICAL);
     General_SUnknown7_Text = new SolidText(General_Scroller, " Unkown 7 *");
     General_SUnknown7 = AGETextCtrl::init(CByte, &uiGroupMaps, this, &popUp, General_Scroller);
@@ -420,14 +420,14 @@ void AGE_Frame::CreateGeneralControls()
     General_SUnknown2_Holder->Add(General_SUnknown2, 1, wxEXPAND);
     General_SUnknown3_Holder->Add(General_SUnknown3_Text);
     General_SUnknown3_Holder->Add(General_SUnknown3, 1, wxEXPAND);
-    General_SUnknown4_Holder->Add(General_SUnknown4_Text);
-    General_SUnknown4_Holder->Add(General_SUnknown4, 1, wxEXPAND);
-    General_SUnknown5_Holder->Add(General_SUnknown5_Text);
-    General_SUnknown5_Holder->Add(General_SUnknown5, 1, wxEXPAND);
+    General_SWGBBlendModes_Holder->Add(General_SWGBBlendModes_Text);
+    General_SWGBBlendModes_Holder->Add(General_SWGBBlendModes, 1, wxEXPAND);
+    General_SWGBMaxBlendModes_Holder->Add(General_SWGBMaxBlendModes_Text);
+    General_SWGBMaxBlendModes_Holder->Add(General_SWGBMaxBlendModes, 1, wxEXPAND);
     General_Variables1_Holder->Add(General_SUnknown2_Holder);
     General_Variables1_Holder->Add(General_SUnknown3_Holder, 0, wxLEFT, 5);
-    General_Variables1_Holder->Add(General_SUnknown4_Holder, 0, wxLEFT, 5);
-    General_Variables1_Holder->Add(General_SUnknown5_Holder, 0, wxLEFT, 5);
+    General_Variables1_Holder->Add(General_SWGBBlendModes_Holder, 0, wxLEFT, 5);
+    General_Variables1_Holder->Add(General_SWGBMaxBlendModes_Holder, 0, wxLEFT, 5);
     General_Variables1_Holder->Add(General_SUnknown7_Holder, 0, wxLEFT, 5);
     General_Variables1_Holder->Add(General_SUnknown8_Holder, 0, wxLEFT, 5);
 

@@ -1382,12 +1382,12 @@ private:
     wxBoxSizer *General_SUnknown3_Holder;
     SolidText *General_SUnknown3_Text;
     AGETextCtrl *General_SUnknown3;
-    wxBoxSizer *General_SUnknown4_Holder;
-    SolidText *General_SUnknown4_Text;
-    AGETextCtrl *General_SUnknown4;
-    wxBoxSizer *General_SUnknown5_Holder;
-    SolidText *General_SUnknown5_Text;
-    AGETextCtrl *General_SUnknown5;
+    wxBoxSizer *General_SWGBBlendModes_Holder;
+    SolidText *General_SWGBBlendModes_Text;
+    AGETextCtrl *General_SWGBBlendModes;
+    wxBoxSizer *General_SWGBMaxBlendModes_Holder;
+    SolidText *General_SWGBMaxBlendModes_Text;
+    AGETextCtrl *General_SWGBMaxBlendModes;
     array<wxBoxSizer*, 8> General_TTKnown_Holder;
     array<SolidText*, 8> General_TTKnown_Text;
     array<AGETextCtrl*, 8> General_TTKnown;

@@ -626,9 +626,9 @@ void AGE_Frame::PrepUnitSearch()
         else if(label.compare(Type50[13]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "x" + FormatFloat(unit_ptr->Combat.GraphicDisplacement[0])
-                    + " y" + FormatFloat(unit_ptr->Combat.GraphicDisplacement[1])
-                    + " z" + FormatFloat(unit_ptr->Combat.GraphicDisplacement[2]);
+            return UF50 "x" + FormatFloat(unit_ptr->Combat.GraphicDisplacement.x)
+                    + " y" + FormatFloat(unit_ptr->Combat.GraphicDisplacement.y)
+                    + " z" + FormatFloat(unit_ptr->Combat.GraphicDisplacement.z);
         });
         else if(label.compare(Type50[14]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -1178,10 +1178,9 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
                     Units_AccuracyPercent->prepend(&UnitPointer->Combat.AccuracyPercent);
                     Units_TowerMode->prepend(&UnitPointer->Combat.BreakOffCombat);
                     Units_Delay->prepend(&UnitPointer->Combat.FrameDelay);
-                    for(size_t loop = 0; loop < 3; ++loop)
-                    {
-                        Units_GraphicDisplacement[loop]->prepend(&UnitPointer->Combat.GraphicDisplacement[loop]);
-                    }
+                    Units_GraphicDisplacement[0]->prepend(&UnitPointer->Combat.GraphicDisplacement.x);
+                    Units_GraphicDisplacement[1]->prepend(&UnitPointer->Combat.GraphicDisplacement.y);
+                    Units_GraphicDisplacement[2]->prepend(&UnitPointer->Combat.GraphicDisplacement.z);
                     Units_BlastAttackLevel->prepend(&UnitPointer->Combat.BlastAttackLevel);
                     Units_MinRange->prepend(&UnitPointer->Combat.MinRange);
                     if(CopyGraphics || vecCiv == 0)
@@ -5974,7 +5973,7 @@ void AGE_Frame::CreateUnitControls()
                 if(dataset->Civs[civ].UnitPointers[UnitIDs[sel]] == 0)
                 {
                     dataset->Civs[civ].UnitPointers[UnitIDs[sel]] = 1;
-                    dataset->Civs[civ].Units[UnitIDs[sel]].Type = UnitType;
+                    dataset->Civs[civ].Units[UnitIDs[sel]].Type = genie::Unit::UnitType(UnitType);
                     dataset->Civs[civ].Units[UnitIDs[sel]].DamageGraphics.resize(DamageGraphics);
                     dataset->Civs[civ].Units[UnitIDs[sel]].Combat.Attacks.resize(Attacks);
                     dataset->Civs[civ].Units[UnitIDs[sel]].Combat.Armours.resize(Armors);
@@ -5990,7 +5989,7 @@ void AGE_Frame::CreateUnitControls()
                 if(dataset->Civs[UnitCivID].UnitPointers[UnitIDs[sel]] == 0)
                 {
                     dataset->Civs[UnitCivID].UnitPointers[UnitIDs[sel]] = 1;
-                    dataset->Civs[UnitCivID].Units[UnitIDs[sel]].Type = UnitType;
+                    dataset->Civs[UnitCivID].Units[UnitIDs[sel]].Type = genie::Unit::UnitType(UnitType);
                     dataset->Civs[UnitCivID].Units[UnitIDs[sel]].DamageGraphics.resize(DamageGraphics);
                     dataset->Civs[UnitCivID].Units[UnitIDs[sel]].Combat.Attacks.resize(Attacks);
                     dataset->Civs[UnitCivID].Units[UnitIDs[sel]].Combat.Armours.resize(Armors);
