@@ -1928,7 +1928,7 @@ void AGE_Frame::OnUnitDamageGraphicSelect(wxCommandEvent &event)
         // This and attacks/armors/commands need a lot of thinking.
 
         bool showWarning = false;
-        wxString warning = "Damage graphic count of civs\n";
+        wxString warning = "Damage sprite count of civs\n";
         genie::unit::DamageGraphic * DamageGraphicPointer;
         for(auto sel = selections; sel--> 0;)
         {
@@ -3152,7 +3152,7 @@ void AGE_Frame::CreateUnitControls()
     Units_Insert = new wxButton(Tab_Units, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
     Units_Delete = new wxButton(Tab_Units, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
     Units_Copy = new wxButton(Tab_Units, wxID_ANY, "Copy *", wxDefaultPosition, wxSize(10, -1));
-    Units_Copy->SetToolTip("When \"All civs\" is not selected,\nthis and pasting works just like automatic copy,\n(from current civilization to selected ones)\ntaking \"Including graphics\" option into account");
+    Units_Copy->SetToolTip("When \"All civs\" is not selected,\nthis and pasting works just like automatic copy,\n(from current civilization to selected ones)\ntaking \"Including sprite data\" option into account");
     Units_Paste = new wxButton(Tab_Units, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
     Units_PasteInsert = new wxButton(Tab_Units, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
     Units_Info = new SolidText(Tab_Units, " Info *");
@@ -3178,19 +3178,19 @@ void AGE_Frame::CreateUnitControls()
     unit_filter_options.Add("Type 80");
     Units_FilterSelector->Flash();
 
-    const wxString autoCopyHelpText = "Every civilization has their own unit data, and by default, only non-graphic data changes are copied to other civilizations.";
+    const wxString autoCopyHelpText = "Every civilization has their own unit data, and by default, only non-sprite data changes are copied to other civilizations.";
     Units_DataArea = new wxBoxSizer(wxVERTICAL);
     Units_Top_Holder = new wxBoxSizer(wxHORIZONTAL);
     Units_TopGrid_Holder = new wxWrapSizer();
     Units_AutoCopy = new wxCheckBox(Tab_Units, wxID_ANY, "Automatically");
     Units_AutoCopy->SetToolTip("It is safer to copy automatically than manually.");
     Units_CopyTo = new wxButton(Tab_Units, wxID_ANY, "Copy", wxDefaultPosition, wxSize(40, -1));
-    Units_CopyGraphics = new wxCheckBox(Tab_Units, wxID_ANY, "Including graphics");
+    Units_CopyGraphics = new wxCheckBox(Tab_Units, wxID_ANY, "Including sprite data");
     Units_CopyGraphics->SetToolTip(autoCopyHelpText);
     Units_CopyToText = new SolidText(Tab_Units, " to selected civilizations: ");
     Units_SelectAll = new wxButton(Tab_Units, wxID_ANY, "All", wxDefaultPosition, wxSize(40, -1));
     Units_SelectClear = new wxButton(Tab_Units, wxID_ANY, "None", wxDefaultPosition, wxSize(40, -1));
-    Units_GraphicSetText = new SolidText(Tab_Units, " Graphic set: ");
+    Units_GraphicSetText = new SolidText(Tab_Units, " Culture: ");
     Units_GraphicSet = new AGEComboBox(Tab_Units, &graphicset_names, AGETextCtrl::NORMAL);
     visibleUnitCiv = new SolidText(Tab_Units, "Civ ", wxST_NO_AUTORESIZE, wxSize(AGETextCtrl::NORMAL, -1));
     Units_Identity_Holder = new wxStaticBoxSizer(wxVERTICAL, Tab_Units, "");
@@ -3205,7 +3205,7 @@ void AGE_Frame::CreateUnitControls()
     Units_ScrollSpace = new wxBoxSizer(wxVERTICAL);
     Units_TypeArea_Holder = new wxBoxSizer(wxHORIZONTAL);
     Units_LangDLLArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Language Files");
-    Units_GraphicsArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Graphics");
+    Units_GraphicsArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Sprites");
     SolidText* autoCopyHelp = new SolidText(Units_Scroller, autoCopyHelpText);
     Units_GraphicsArea1_Holder = new wxBoxSizer(wxHORIZONTAL);
     Units_GraphicsArea4_Holder = new wxBoxSizer(wxVERTICAL);
@@ -3448,8 +3448,8 @@ void AGE_Frame::CreateUnitControls()
     Units_LanguageDLLName_Text = new SolidText(Units_Scroller, " Language File Name *");
     Units_LanguageDLLCreation_Text = new SolidText(Units_Scroller, " Language File Creation");
     Units_Class_Text = new SolidText(Tab_Units, "  Class * ");
-    Units_StandingGraphic_Text = new SolidText(Units_Scroller, " Standing Graphics *");
-    Units_DyingGraphic_Text = new SolidText(Units_Scroller, " Dying and Undead Graphics");
+    Units_StandingGraphic_Text = new SolidText(Units_Scroller, " Standing Sprite *");
+    Units_DyingGraphic_Text = new SolidText(Units_Scroller, " Dying and Undead Sprite");
     Units_HitPoints_Text = new SolidText(Units_Scroller, " Hit Points *");
     Units_LineOfSight_Text = new SolidText(Units_Scroller, " Line of Sight *");
     Units_GarrisonCapacity_Text = new SolidText(Units_Scroller, " Garrison Capacity");
@@ -3513,7 +3513,7 @@ void AGE_Frame::CreateUnitControls()
 
 //  Type 30+
 
-    Units_WalkingGraphic_Text = new SolidText(Units_Scroller, " Walking and Running Graphics");
+    Units_WalkingGraphic_Text = new SolidText(Units_Scroller, " Walking and Running Sprite");
     Units_RotationSpeed_Text = new SolidText(Units_Scroller, " Rotation Speed *");
     Units_SizeClass_Text = new SolidText(Units_Scroller, " Size Class");
     Units_TrackingUnit_Text = new SolidText(Units_Scroller, " Trailing Unit");
@@ -3548,11 +3548,11 @@ void AGE_Frame::CreateUnitControls()
     Units_ProjectileUnitID_Text = new SolidText(Units_Scroller, " Projectile Unit");
     Units_AccuracyPercent_Text = new SolidText(Units_Scroller, " Accuracy Percent");
     Units_Delay_Text = new SolidText(Units_Scroller, " Frame Delay *");
-    Units_GraphicDisplacement_Text = new SolidText(Units_Scroller, " Graphic Displacement XYZ *");
+    Units_GraphicDisplacement_Text = new SolidText(Units_Scroller, " Sprite Displacement XYZ *");
     Units_BlastAttackLevel_Text = new SolidText(Units_Scroller, " Blast Attack Level *");
     Units_MinRange_Text = new SolidText(Units_Scroller, " Min Range");
     Units_AccuracyDispersion_Text = new SolidText(Units_Scroller, " Attack Dispersion *");
-    Units_AttackGraphic_Text = new SolidText(Units_Scroller, " Attack Graphic");
+    Units_AttackGraphic_Text = new SolidText(Units_Scroller, " Attack Sprite");
     Units_DisplayedMeleeArmour_Text = new SolidText(Units_Scroller, " Shown Melee Armor");
     Units_DisplayedAttack_Text = new SolidText(Units_Scroller, " Shown Attack");
     Units_DisplayedRange_Text = new SolidText(Units_Scroller, " Shown Range");
@@ -3578,25 +3578,25 @@ void AGE_Frame::CreateUnitControls()
     Units_RearAttackModifier_Text = new SolidText(Units_Scroller, " Backstab Bonus");
     Units_FlankAttackModifier_Text = new SolidText(Units_Scroller, " Flank Bonus");
     Units_CreatableType_Text = new SolidText(Units_Scroller, " Creatable Type *");
-    Units_GarrisonGraphic_Text = new SolidText(Units_Scroller, " Garrison Graphic");
+    Units_GarrisonGraphic_Text = new SolidText(Units_Scroller, " Garrison Sprite");
     Units_MissileCount_Text = new SolidText(Units_Scroller, " Total Projectiles *");
     Units_MissileDuplicationCount_Text = new SolidText(Units_Scroller, " Max Total Projectiles *");
     Units_AttackMissileDuplicationSpawning_Text = new SolidText(Units_Scroller, " Projectile Spawning Area *");
     Units_AttackMissileDuplicationUnit_Text = new SolidText(Units_Scroller, " Secondary Projectile Unit *");
-    Units_ChargingGraphic_Text = new SolidText(Units_Scroller, " Special Graphic *");
+    Units_ChargingGraphic_Text = new SolidText(Units_Scroller, " Special Sprite *");
     Units_ChargingMode_Text = new SolidText(Units_Scroller, " Special Ability *");
     Units_DisplayedPierceArmour_Text = new SolidText(Units_Scroller, " Shown Pierce Armor");
-    Units_SpawningGraphic_Text = new SolidText(Units_Scroller, " Spawning Graphic");
-    Units_UpgradeGraphic_Text = new SolidText(Units_Scroller, " Upgrade Graphic");
+    Units_SpawningGraphic_Text = new SolidText(Units_Scroller, " Spawning Sprite");
+    Units_UpgradeGraphic_Text = new SolidText(Units_Scroller, " Upgrade Sprite");
 
 //  Type 80
 
-    Units_ConstructionGraphicID_Text = new SolidText(Units_Scroller, " Construction Graphic");
-    Units_SnowGraphicID_Text = new SolidText(Units_Scroller, " Snow Graphic");
-    Units_DestructionGraphicID_Text = new SolidText(Units_Scroller, " Destruction Graphic");
-    Units_DestructionRubbleGraphicID_Text = new SolidText(Units_Scroller, " Destruction Rubble Graphic");
-    Units_ResearchingGraphic_Text = new SolidText(Units_Scroller, " Researching Graphic");
-    Units_ResearchCompletedGraphic_Text = new SolidText(Units_Scroller, " Research Completed Graphic");
+    Units_ConstructionGraphicID_Text = new SolidText(Units_Scroller, " Construction Sprite");
+    Units_SnowGraphicID_Text = new SolidText(Units_Scroller, " Snow Sprite");
+    Units_DestructionGraphicID_Text = new SolidText(Units_Scroller, " Destruction Sprite");
+    Units_DestructionRubbleGraphicID_Text = new SolidText(Units_Scroller, " Destruction Rubble Sprite");
+    Units_ResearchingGraphic_Text = new SolidText(Units_Scroller, " Researching Sprite");
+    Units_ResearchCompletedGraphic_Text = new SolidText(Units_Scroller, " Research Completed Sprite");
     Units_IconAngle_Text = new SolidText(Units_Scroller, " Angle *");
     Units_StackUnitID_Text = new SolidText(Units_Scroller, " Stack Unit *");
     Units_TerrainID_Text = new SolidText(Units_Scroller, " Foundation Terrain *");
@@ -3658,7 +3658,7 @@ void AGE_Frame::CreateUnitControls()
     slp_garrison = new wxCheckBox(Units_Scroller, wxID_ANY, "Housed");
     wxSizer *sizer_slp = new wxBoxSizer(wxHORIZONTAL);
     wxSizer *sizer_slp2 = new wxBoxSizer(wxVERTICAL);
-    Units_DamageGraphics = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Damage Graphics");
+    Units_DamageGraphics = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Damage Sprite");
     Units_DamageGraphics_ListArea = new wxBoxSizer(wxVERTICAL);
     Units_DamageGraphics_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
     Units_DamageGraphics_Search_R = new wxTextCtrl(Units_Scroller, wxID_ANY);
@@ -3673,9 +3673,9 @@ void AGE_Frame::CreateUnitControls()
     Units_DamageGraphics_PasteInsert = new wxButton(Units_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
     Units_DamageGraphics_CopyToUnits = new wxButton(Units_Scroller, wxID_ANY, "Copy all to selected units", wxDefaultPosition, wxSize(10, -1));
     Units_DamageGraphics_Holder_Data = new wxBoxSizer(wxVERTICAL);
-    slp_dmg_unit = new wxCheckBox(Units_Scroller, wxID_ANY, "View damage graphics");
+    slp_dmg_unit = new wxCheckBox(Units_Scroller, wxID_ANY, "View damage sprite");
     DamageGraphics_GraphicID_Holder = new wxBoxSizer(wxVERTICAL);
-    DamageGraphics_GraphicID_Text = new SolidText(Units_Scroller, " Graphic");
+    DamageGraphics_GraphicID_Text = new SolidText(Units_Scroller, " Sprite");
     DamageGraphics_GraphicID = AGETextCtrl::init(CShort, &uiGroupUnitDmgGraphic, this, &popUp, Units_Scroller);
     DamageGraphics_GraphicID_ComboBox = new ComboBox_Plus1(Units_Scroller, DamageGraphics_GraphicID, &graphic_names);
     GraphicComboBoxList.push_back(DamageGraphics_GraphicID_ComboBox);
@@ -3685,7 +3685,7 @@ void AGE_Frame::CreateUnitControls()
     DamageGraphics_ApplyMode_Holder = new wxBoxSizer(wxVERTICAL);
     DamageGraphics_ApplyMode_Text = new SolidText(Units_Scroller, " Apply Mode *");
     DamageGraphics_ApplyMode = AGETextCtrl::init(CByte, &uiGroupUnitDmgGraphic, this, &popUp, Units_Scroller);
-    DamageGraphics_ApplyMode->SetToolTip("0   Overlay (flames on buildings)\n1   Overlay randomly\n2   Replace graphics (damaged walls)");
+    DamageGraphics_ApplyMode->SetToolTip("0   Overlay (flames on buildings)\n1   Overlay randomly\n2   Replace sprite (damaged walls)");
     DamageGraphics_Useless_Holder = new wxBoxSizer(wxVERTICAL);
     DamageGraphics_Useless_Text = new SolidText(Units_Scroller, " Useless *");
     DamageGraphics_Useless = AGETextCtrl::init(CByte, &uiGroupUnitDmgGraphic, this, &popUp, Units_Scroller);
@@ -3695,7 +3695,7 @@ void AGE_Frame::CreateUnitControls()
     Units_IconID->SetToolTip("Download Turtle Pack from AoKH to add more than 127 icons.");
     Units_IconID_SLP = new APanel(Units_Scroller, wxSize(55, 50));
     Units_IconAngle = AGETextCtrl::init(CShort, &uiGroupUnit, this, &popUp, Units_Scroller, AGETextCtrl::SMALL);
-    Units_IconAngle->SetToolTip("Effect attribute 17 changes this\n0   Default\n1+ Use icon from 2nd age etc\nIn AoE 1 can be used to set the unit\nhave icon graphics of later ages straight in stone age");
+    Units_IconAngle->SetToolTip("Effect attribute 17 changes this\n0   Default\n1+ Use icon from 2nd age etc\nIn AoE 1 can be used to set the unit\nhave icon sprites of later ages straight in stone age");
     Units_ChargingGraphic = AGETextCtrl::init(CLong, &uiGroupUnit, this, &popUp, Units_Scroller);
     Units_ChargingGraphic->SetToolTip("Activates depending on special ability");
     Units_ChargingGraphic_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_ChargingGraphic, &graphic_names);
@@ -3790,7 +3790,7 @@ void AGE_Frame::CreateUnitControls()
 
     Units_DisplayedAttack = AGETextCtrl::init(CShort, &uiGroupUnit, this, &popUp, Units_Scroller);
     Units_Delay = AGETextCtrl::init(CShort, &uiGroupUnit, this, &popUp, Units_Scroller);
-    Units_Delay->SetToolTip("Graphical delay in frames before projectile is shot");
+    Units_Delay->SetToolTip("Frame delay before projectile is shot");
     Units_AccuracyPercent = AGETextCtrl::init(CShort, &uiGroupUnit, this, &popUp, Units_Scroller);
     Units_AccuracyDispersion = AGETextCtrl::init(CFloat, &uiGroupUnit, this, &popUp, Units_Scroller);
     Units_AccuracyDispersion->SetToolTip("Arc multiplier of the sector where the projectiles may hit.\nHigher values will make missed hits disperse more.");
@@ -3893,8 +3893,8 @@ void AGE_Frame::CreateUnitControls()
     Units_HitMode->SetToolTip("0   Continue after hitting an obstacle\n1   Disappear once an obstacle is hit\n"
         "2   Hit all. Damages target and resting position?");
     Units_VanishMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller);
-    Units_VanishMode->SetToolTip("Only affects graphics of the projectile\n0   Stops graphics at target\n"
-        "1   Graphics pass through the target instead of stopping");
+    Units_VanishMode->SetToolTip("Only affects sprite of the projectile\n0   Stops sprite at target\n"
+        "1   Sprite passes through the target instead of stopping");
     Units_AreaEffectSpecials = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller);
     Units_AreaEffectSpecials->SetToolTip("0   Normal\n1   Random (bullets)\n2   Random explosions");
     Units_ProjectileArc = AGETextCtrl::init(CFloat, &uiGroupUnit, this, &popUp, Units_Scroller);
@@ -3908,16 +3908,16 @@ void AGE_Frame::CreateUnitControls()
         "0   Default\n1   Prevents enabling/disabling with a tech");
     Units_Disabled_CheckBox = new CheckBox_2State(Units_Scroller, "Disabled *", Units_Disabled);
     Units_UndeadMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller, AGETextCtrl::SMALL);
-    Units_UndeadMode->SetToolTip("After 1st dying graphic:\n0   Transform into dead unit\n1   Show undead graphic");
+    Units_UndeadMode->SetToolTip("After 1st dying sprite:\n0   Transform into dead unit\n1   Show undead sprite");
     Units_UndeadMode_CheckBox = new CheckBox_2State(Units_Scroller, "Undead Mode *", Units_UndeadMode);
     Units_CanBeBuiltOn = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller, AGETextCtrl::SMALL);
-    Units_CanBeBuiltOn->SetToolTip("0   Default\n1   Graphic stays at highest elevation until destination is reached\n2+ Graphic is not affected by elevation");
+    Units_CanBeBuiltOn->SetToolTip("0   Default\n1   Sprite stays at highest elevation until destination is reached\n2+ Sprite is not affected by elevation");
     Units_CanBeBuiltOn_CheckBox = new CheckBox_2State(Units_Scroller, "Can be Built on *", Units_CanBeBuiltOn);
     Units_HideInEditor = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller, AGETextCtrl::SMALL);
     Units_HideInEditor->SetToolTip("Possible values: 0, 1 and as boolean");
     Units_HideInEditor_CheckBox = new CheckBox_2State(Units_Scroller, "Hide in Editor", Units_HideInEditor);
     Units_FlyMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller, AGETextCtrl::SMALL);
-    Units_FlyMode->SetToolTip("Controls graphic altitude when teleporting\n0   Stay on ground\n1   Graphics appear higher than the shadow");
+    Units_FlyMode->SetToolTip("Controls sprite altitude when teleporting\n0   Stay on ground\n1   Sprite appear higher than the shadow");
     Units_FlyMode_CheckBox = new CheckBox_2State(Units_Scroller, "Fly Mode *", Units_FlyMode);
     Units_Recyclable = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller, AGETextCtrl::SMALL);
     Units_Recyclable->SetToolTip("Unselectable\nNot scanned but set to 1 for class 11\nCan change during gameplay");
@@ -3928,7 +3928,7 @@ void AGE_Frame::CreateUnitControls()
     Units_HeroMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller, AGETextCtrl::SMALL);
     Units_HeroMode_CheckBox = new CheckBox_2State(Units_Scroller, "Hero Mode", Units_HeroMode);
     Units_AdjacentMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller, AGETextCtrl::SMALL);
-    Units_AdjacentMode->SetToolTip("0   Default\n1   Adjacent buildings can change graphics of this unit\nThis changes the graphic angle");
+    Units_AdjacentMode->SetToolTip("0   Default\n1   Adjacent buildings can change sprite of this unit\nThis changes the sprite angle");
     Units_AdjacentMode_CheckBox = new CheckBox_2State(Units_Scroller, "Adjacent Mode *", Units_AdjacentMode);
     Units_DisappearsWhenBuilt = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller, AGETextCtrl::SMALL);
     Units_DisappearsWhenBuilt->SetToolTip("Useful for stack unit placement\n0   Default\n1   Makes the building disappear when built");
@@ -3967,12 +3967,12 @@ void AGE_Frame::CreateUnitControls()
         "Changes according to task\n1   Male villager\n2   Female villager\n3+ Free slots");
     Units_ChargingMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller);
     Units_ChargingMode->SetToolTip("0   None\nThese work only when facing the hit angle.\n"
-        "1   Block\n    Activates special graphic when receiving damage and\n    not pursuing the attacker.\n"
+        "1   Block\n    Activates special sprite when receiving damage and\n    not pursuing the attacker.\n"
         "    While idle, blocking decreases damage taken by 1/3.\n"
-        "2   Counter Charge\n    Activates special graphic when idle and enemy is near.\n"
+        "2   Counter Charge\n    Activates special sprite when idle and enemy is near.\n"
         "    While idle, attacks back once on first received hit.\n"
         "    Enemy must be unit type 70 and have less than 0.2 max range.\n"
-        "3   Charge\n    Activates special graphic when closer than two tiles to the target.\n"
+        "3   Charge\n    Activates special sprite when closer than two tiles to the target.\n"
         "    Deals 2X damage on 1st hit.\nPlanned but never implemented ship special attacks:\n"
         "Read the design document of Age of Empires II.\n"
         "These were supposed to be mutually exclusive technologies.\n"
@@ -4328,13 +4328,13 @@ void AGE_Frame::CreateUnitControls()
     }
     Tasks_WwiseResourceGatheringSound = AGETextCtrl::init(CULong, &uiGroupUnitTask, this, &popUp, Units_Scroller);
     Tasks_WwiseResourceDepositSound = AGETextCtrl::init(CULong, &uiGroupUnitTask, this, &popUp, Units_Scroller);
-    Tasks_Graphics_Text[0] = new SolidText(Units_Scroller, " Moving Graphic *");
+    Tasks_Graphics_Text[0] = new SolidText(Units_Scroller, " Moving Sprite *");
     Tasks_Graphics[0]->SetToolTip("Used when walking with a tool, but carrying no resources");
-    Tasks_Graphics_Text[1] = new SolidText(Units_Scroller, " Proceeding Graphic *");
+    Tasks_Graphics_Text[1] = new SolidText(Units_Scroller, " Proceeding Sprite *");
     Tasks_Graphics[1]->SetToolTip("Used when proceeding to gather a resource or attack");
-    Tasks_Graphics_Text[2] = new SolidText(Units_Scroller, " Working Graphic *");
+    Tasks_Graphics_Text[2] = new SolidText(Units_Scroller, " Working Sprite *");
     Tasks_Graphics[2]->SetToolTip("Used when actually gathering a resource or attacking/converting");
-    Tasks_Graphics_Text[3] = new SolidText(Units_Scroller, " Carrying Graphic *");
+    Tasks_Graphics_Text[3] = new SolidText(Units_Scroller, " Carrying Sprite *");
     Tasks_Graphics[3]->SetToolTip("Used when carrying a resource");
     Tasks_Graphics_Text[4] = new SolidText(Units_Scroller, " Resource Gathering Sound *");
     Tasks_Graphics[4]->SetToolTip("Example: Plays when lumberjack starts chopping wood");
@@ -4399,8 +4399,8 @@ void AGE_Frame::CreateUnitControls()
     Type20.Add("Language File Name");
     Type20.Add("Language File Creation");
     Type20.Add("Class");
-    Type20.Add("Standing Graphic x2");
-    Type20.Add("Dying Graphic x2");
+    Type20.Add("Standing Sprite x2");
+    Type20.Add("Dying Sprite x2");
     Type20.Add("Undead Mode");
     Type20.Add("Hit Points");
     Type20.Add("Line of Sight");
@@ -4452,8 +4452,8 @@ void AGE_Frame::CreateUnitControls()
     Type20.Add("Selection Size XY");
     Type20.Add("Selection Size Z");
     Type20.Add("Resource Storages 21 bytes");
-    Type20.Add("Damage Graphic Count");
-    Type20.Add("Damage Graphics");
+    Type20.Add("Damage Sprite Count");
+    Type20.Add("Damage Sprite");
     Type20.Add("Selection Sound");
     Type20.Add("Dying Sound");
     Type20.Add("Attack Reaction");
@@ -4473,7 +4473,7 @@ void AGE_Frame::CreateUnitControls()
     Type20.Add("Selection Wwise Sound");
     Type20.Add("Dying Wwise Sound");
 
-    Type30.Add("Walking Graphic x2");
+    Type30.Add("Walking Sprite x2");
     Type30.Add("Rotation Speed");
     Type30.Add("Size Class");
     Type30.Add("Trailing Unit");
@@ -4509,11 +4509,11 @@ void AGE_Frame::CreateUnitControls()
     Type50.Add("Accuracy Percent");
     Type50.Add("Break off Combat");
     Type50.Add("Frame Delay");
-    Type50.Add("Graphic Displacement 3 floats");
+    Type50.Add("Sprite Displacement 3 floats");
     Type50.Add("Blast Attack Level");
     Type50.Add("Min Range");
     Type50.Add("Attack Dispersion");
-    Type50.Add("Attack Graphic");
+    Type50.Add("Attack Sprite");
     Type50.Add("Displayed Melee Armor");
     Type50.Add("Displayed Attack");
     Type50.Add("Displayed Range");
@@ -4534,21 +4534,21 @@ void AGE_Frame::CreateUnitControls()
     Type70.Add("Flank Attack Modifier");
     Type70.Add("Creatable Type");
     Type70.Add("Hero Mode");
-    Type70.Add("Garrison Graphic");
+    Type70.Add("Garrison Sprite");
     Type70.Add("Total Projectiles");
     Type70.Add("Max Total Projectiles");
     Type70.Add("Projectile Spawning Area 3 floats");
     Type70.Add("Secondary Projectile Unit");
-    Type70.Add("Special Graphic");
+    Type70.Add("Special Sprite");
     Type70.Add("Special Ability");
     Type70.Add("Displayed Pierce Armor");
-    Type70.Add("Spawning Graphic");
-    Type70.Add("Upgrade Graphic");
+    Type70.Add("Spawning Sprite");
+    Type70.Add("Upgrade Sprite");
 
-    Type80.Add("Construction Graphic");
-    Type80.Add("Snow Graphic");
+    Type80.Add("Construction Sprite");
+    Type80.Add("Snow Sprite");
     Type80.Add("Adjacent Mode");
-    Type80.Add("Graphics Angle");
+    Type80.Add("Sprite Angle");
     Type80.Add("Disappears After Built");
     Type80.Add("Stack Unit");
     Type80.Add("Foundation Terrain");
@@ -4567,12 +4567,12 @@ void AGE_Frame::CreateUnitControls()
     Type80.Add("Looting Table 6 bytes");
     Type80.Add("Transform Wwise Sound");
     Type80.Add("Construction Wwise Sound");
-    Type80.Add("Foundation Destruction Graphic");
-    Type80.Add("Foundation Rubble Graphic");
-    Type80.Add("Researching Graphic");
-    Type80.Add("Research Completed Graphic");
+    Type80.Add("Foundation Destruction Sprite");
+    Type80.Add("Foundation Rubble Sprite");
+    Type80.Add("Researching Sprite");
+    Type80.Add("Research Completed Sprite");
 
-    specialcopy_names.Add("Special: graphics only");
+    specialcopy_names.Add("Special: sprite data only");
     Units_SpecialCopy_Options->Flash();
 
     Units_Buttons->Add(Units_Add, 1, wxEXPAND);

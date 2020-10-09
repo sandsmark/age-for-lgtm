@@ -1019,7 +1019,7 @@ private:
     float EditorVersion, slp_zoom = 1;
     double boxWidthMultiplier;
     wxString EditorVersionString, slp_extra_info;
-    bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups, StayOnTop, KeepViewOnTop, useDynamicName;
+    bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups, StayOnTop, KeepViewOnTop, useDynamicName, NeverHideAttributes;
     vector<short> SelectedCivs;
     bool SearchAnd = false, ExcludeAnd = false, ShowUnknowns, ResizeTerrains, SkipOpenDialog, Paste11, Reselection;
     bool ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons, DrawHot = false;
@@ -1105,7 +1105,7 @@ public:
     {
         // menus and tool bar
         ePrompt = wxID_HIGHEST + 1, eVasili,
-        eButtons, eShowSLP, eShowIcons, eTips, eStayOnTop, eStayOnTopSLP, eAbout, eSlpPals, eSlpPCPal, eCacheDepth, eSlpZoom,
+        eButtons, eNeverHide, eShowSLP, eShowIcons, eTips, eStayOnTop, eStayOnTopSLP, eAbout, eSlpPals, eSlpPCPal, eCacheDepth, eSlpZoom,
         eBackup, eUnknown, eHelp, eDRS, eHex, eFloat, ePaste, eReselection, eAddWindow, eCompileList, eBoxWidth,
 
         // open and save
@@ -1146,7 +1146,7 @@ private:
 
     //  Miscellaneous combo box strings
         task_names, unit_type_names, graphicset_names, specialcopy_names,
-        unit_filter_options, civ_names_only, mode_names;
+        unit_filter_options, civ_names_only, mode_names, modify_research_names;
 
     wxMenuBar *MenuBar_Main;
     wxMenu *SubMenu_Options, *SubMenu_Help, *SubMenu_SLP;
