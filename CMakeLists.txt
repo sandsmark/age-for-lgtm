@@ -23,7 +23,7 @@ endif()
 # In case you didn't know, it (wxWidgets) is crap, so we need this hack
 if(MSVC AND _VCPKG_INSTALLED_DIR)
 
-    add_definitions(wxUSE_UNICODE)
+    add_definitions(/DwxUSE_UNICODE)
     set(wxWidgets_USE_STATIC TRUE)
     include(${CMAKE_SOURCE_DIR}/cmake/vcpkg-wxwidgets.cmake)
     message(STATUS "VCPKG available, this should be empty: ${wxWidgets_DEFINITIONS}")
