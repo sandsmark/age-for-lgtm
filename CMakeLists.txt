@@ -22,7 +22,9 @@ endif()
 # Find wxWidgets
 # In case you didn't know, it is crap, so we need this hack
 if(MSVC AND _VCPKG_INSTALLED_DIR)
+    message(STATUS "VCPKG available, this should be empty: ${wxWidgets_DEFINITIONS}")
     include(${CMAKE_SOURCE_DIR}/cmake/vcpkg-wxwidgets.cmake)
+    set(wxWidgets_USE_STATIC
 else()
     # wxwidgets is a burning, flying shitshow
     if(NOT DEFINED ENV{WX_CONFIG})
@@ -30,11 +32,13 @@ else()
         message(STATUS "Defaulting to wx-config name $ENV{WX_CONFIG}")
     endif()
 
-    find_package(wxWidgets REQUIRED adv core base)
-
     # Needed to fix GTK's spam shit
     if ("${wxWidgets_LIBRARIES}" MATCHES "gtk")
-        message(WARNING "Using GTK, expect slowness")
+        message(WARNING 
+            "################################################################################################################\n"
+            "   wxGTK is _very_ slow and laggy (especially GTK3). It will build and work, but don't file any bugs about this.\n"
+            "################################################################################################################\n"
+        )
         find_package(PkgConfig REQUIRED)
         pkg_search_module(GLIB REQUIRED glib-2.0)
         include_directories(${GLIB_INCLUDE_DIRS})
@@ -45,6 +49,8 @@ else()
     include("${wxWidgets_USE_FILE}")
 endif()
 
+
+find_package(wxWidgets REQUIRED adv core base)
 find_package(SFML 2.4 REQUIRED system audio)
 
 set(GUTILS_TOOLS FALSE)
