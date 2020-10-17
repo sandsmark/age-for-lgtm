@@ -22,9 +22,9 @@ endif()
 # Find wxWidgets
 # In case you didn't know, it is crap, so we need this hack
 if(MSVC AND _VCPKG_INSTALLED_DIR)
+    set(wxWidgets_USE_STATIC TRUE)
     message(STATUS "VCPKG available, this should be empty: ${wxWidgets_DEFINITIONS}")
     include(${CMAKE_SOURCE_DIR}/cmake/vcpkg-wxwidgets.cmake)
-    set(wxWidgets_USE_STATIC
 else()
     # wxwidgets is a burning, flying shitshow
     if(NOT DEFINED ENV{WX_CONFIG})
