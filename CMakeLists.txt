@@ -32,6 +32,8 @@ else()
         message(STATUS "Defaulting to wx-config name $ENV{WX_CONFIG}")
     endif()
 
+    find_package(wxWidgets REQUIRED adv core base)
+
     # Needed to fix GTK's spam shit
     if ("${wxWidgets_LIBRARIES}" MATCHES "gtk")
         message(WARNING 
@@ -50,7 +52,6 @@ else()
 endif()
 
 
-find_package(wxWidgets REQUIRED adv core base)
 find_package(SFML 2.4 REQUIRED system audio)
 
 set(GUTILS_TOOLS FALSE)
