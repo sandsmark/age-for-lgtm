@@ -46,6 +46,7 @@ For compiling it yourself you need the following installed:
 
  * A modern C++ compiler (supporting at least C++17).
  * wxWidgets.
+    - On Linux use wxgtk2 if possible, the gtk3 version is extremely slow and laggy.
  * SFML (audio module).
 
 
