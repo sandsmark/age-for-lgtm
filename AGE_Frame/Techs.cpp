@@ -300,17 +300,17 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
         case 17:
             Name = "Team ";
         case 7:
-            if(dataset->Effects[tech].EffectCommands[effect].B == 1)
+            if(dataset->Effects[tech].EffectCommands[effect].UnitClassID == 1)
             {
-                Name += "Enable tech "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+                Name += "Enable tech "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].Amount);
             }
-            else if(dataset->Effects[tech].EffectCommands[effect].B == 2)
+            else if(dataset->Effects[tech].EffectCommands[effect].UnitClassID == 2)
             {
-                Name += "Force multi-use tech "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+                Name += "Force multi-use tech "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].Amount);
             }
             else
             {
-                Name += "Disable tech "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+                Name += "Disable tech "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].Amount);
             }
             break;
         case 38:
@@ -321,29 +321,29 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
             Name = "Team ";
         case 8:
             {
-                if(dataset->Effects[tech].EffectCommands[effect].B == -2)
+                if(dataset->Effects[tech].EffectCommands[effect].UnitClassID == -2)
                 {
-                    Name += "Modify tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
+                    Name += "Modify tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].TargetUnit)
                     +" research time"
-                    +" by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+                    +" by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].Amount);
                 }
-                else if(dataset->Effects[tech].EffectCommands[effect].B >= 0 && dataset->Effects[tech].EffectCommands[effect].B <= 3)
+                else if(dataset->Effects[tech].EffectCommands[effect].UnitClassID >= 0 && dataset->Effects[tech].EffectCommands[effect].UnitClassID <= 3)
                 {
-                    Name += "Modify tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
-                    +" cost type "+FormatInt(dataset->Effects[tech].EffectCommands[effect].B)
-                    +" to "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+                    Name += "Modify tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].TargetUnit)
+                    +" cost type "+FormatInt(dataset->Effects[tech].EffectCommands[effect].UnitClassID)
+                    +" to "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].Amount);
                 }
-                else if(dataset->Effects[tech].EffectCommands[effect].B >= 16384 && dataset->Effects[tech].EffectCommands[effect].B <= 16387)
+                else if(dataset->Effects[tech].EffectCommands[effect].UnitClassID >= 16384 && dataset->Effects[tech].EffectCommands[effect].UnitClassID <= 16387)
                 {
-                    Name += "Modify tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
-                    +" cost type "+FormatInt(dataset->Effects[tech].EffectCommands[effect].B - 16384)
-                    +" by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+                    Name += "Modify tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].TargetUnit)
+                    +" cost type "+FormatInt(dataset->Effects[tech].EffectCommands[effect].UnitClassID - 16384)
+                    +" by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].Amount);
                 }
                 else
                 {
-                    Name += "Modify tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
+                    Name += "Modify tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].TargetUnit)
                     +" research time"
-                    +" to "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+                    +" to "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].Amount);
                 }
             }
             break;
@@ -354,7 +354,7 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
         case 19:
             Name = "Team ";
         case 9:
-            Name += "Set player civ name to lang id "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+            Name += "Set player civ name to lang id "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].Amount);
             break;
         case 101:
             //Name = "Tech Cost Modifier (Set/+/-)";

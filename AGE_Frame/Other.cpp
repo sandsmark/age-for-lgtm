@@ -1799,7 +1799,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         else
         {
             for(size_t loop = 7; loop < 10; ++loop)
-            effect_type_names.Add(lexical_cast<string>(loop) + " - AoC + UP 1.5 only");
+            effect_type_names.Add(std::to_string(loop) + " - AoC + UP 1.5 only");
         }
         if((GenieVersion >= genie::GV_Cysion && GenieVersion <= genie::GV_LatestDE2) || GenieVersion == genie::GV_UP15)
         {
@@ -1847,7 +1847,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         else
         {
             for(size_t loop = 17; loop < 40; ++loop)
-            effect_type_names.Add(lexical_cast<string>(loop) + " - AoC + UP 1.5 only");
+            effect_type_names.Add(std::to_string(loop) + " - AoC + UP 1.5 only");
         }
         if(GenieVersion < genie::GV_AoKA) effect_type_names.Add("101 - AoK+ only");
         else effect_type_names.Add("101 - Tech Cost Modifier (Set/+/-)");
