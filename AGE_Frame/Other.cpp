@@ -3863,8 +3863,10 @@ void AGE_Frame::LoadTXT(const wxString &filename)
     }
 }
 
-void AGE_Frame::LoadIni(const wxString &filename) {
-    ifstream infile(filename);
+void AGE_Frame::LoadIni(const wxString &filename)
+{
+    const std::string realstring(filename.ToStdString());
+    ifstream infile(realstring);
     string line;
     while(getline(infile, line))
     {
