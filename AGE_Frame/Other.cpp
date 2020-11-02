@@ -3395,8 +3395,10 @@ void AGE_Frame::addFilesToRead(const wxArrayString &files, const wxString &folde
             interfac->load(genie::util::resolvePathCaseInsensitive(string(location)));
             datafiles.push_back(interfac);
         }
-        catch(const std::ios_base::failure&)
+        catch(const std::ios_base::failure &e)
         {
+            std::cerr << "failed to load" << location << std::endl;
+            std::cerr << e.what() << std::endl;
             delete interfac;
         }
     }
