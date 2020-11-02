@@ -309,11 +309,11 @@ void AGE_Frame::CreateGeneralControls()
     General_Something_Grid1 = new wxFlexGridSizer(16, 0, 0);
     General_Something_Grid2 = new wxFlexGridSizer(8, 0, 0);
     for(auto &sizer: General_TileSizes_Sizers)
-    sizer = new wxBoxSizer(wxHORIZONTAL);
+        sizer = new wxBoxSizer(wxHORIZONTAL);
     for(auto &box: General_TileSizes)
-    box = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller, AGETextCtrl::SMALL);
+        box = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller, AGETextCtrl::SMALL);
     for(auto &box: General_SomeBytes)
-    box = AGETextCtrl::init(CByte, &uiGroupMaps, this, &popUp, General_Scroller, AGETextCtrl::SMALL);
+        box = AGETextCtrl::init(CByte, &uiGroupMaps, this, &popUp, General_Scroller, AGETextCtrl::SMALL);
     for(auto &box: General_Something)
     box = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller, AGETextCtrl::NORMAL);
 
@@ -331,7 +331,7 @@ void AGE_Frame::CreateGeneralControls()
         General_TileSizes_Sizers[tile++]->Add(General_TileSizes[loop++]);
     }
     for(auto &sizer: General_TileSizes_Sizers)
-    General_TileSizes_Grid->Add(sizer);
+        General_TileSizes_Grid->Add(sizer);
 
     MapRowOffset_Sizer->Add(MapRowOffset_Text);
     MapMinX_Sizer->Add(MapMinX_Text);
