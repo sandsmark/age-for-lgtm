@@ -315,7 +315,7 @@ void AGE_Frame::CreateGeneralControls()
     for(auto &box: General_SomeBytes)
         box = AGETextCtrl::init(CByte, &uiGroupMaps, this, &popUp, General_Scroller, AGETextCtrl::SMALL);
     for(auto &box: General_Something)
-    box = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller, AGETextCtrl::NORMAL);
+        box = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller, AGETextCtrl::NORMAL);
 
     General_TopRow->Add(General_Refresh, 0, wxRIGHT, 100);
     for(size_t loop = 0; loop < 4; ++loop)
