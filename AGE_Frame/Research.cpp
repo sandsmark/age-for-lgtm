@@ -82,28 +82,28 @@ wxString AGE_Frame::GetResearchName(int index, bool Filter)
                         Name += std::to_string((short)dataset->Techs[index].ResourceCosts[loop].Paid);
                     }
                 }   break;
-                if(GenieVersion >= genie::GV_AoKB)
-                {
                 case 16: // Civilization
-                    Name += "C "+std::to_string(dataset->Techs[index].Civ);
-                    break;
+                    if(GenieVersion >= genie::GV_AoKB)
+                    {
+                        Name += "C "+std::to_string(dataset->Techs[index].Civ);
+                    } break;
                 case 17: // Full Tech Mode
-                    Name += "F "+std::to_string(dataset->Techs[index].FullTechMode);
-                    break;
-                if(GenieVersion >= genie::GV_SWGB)
-                {
+                    if(GenieVersion >= genie::GV_AoKB)
+                    {
+                        Name += "F "+std::to_string(dataset->Techs[index].FullTechMode);
+                    } break;
                 case 18: // Internal Name 2
-                    if(!dataset->Techs[index].Name2.empty())
-                    return Name + dataset->Techs[index].Name2;
-                    else goto InternalName;
-                }
-                if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
-                {
+                    if(GenieVersion >= genie::GV_SWGB)
+                    {
+                        if(!dataset->Techs[index].Name2.empty())
+                            return Name + dataset->Techs[index].Name2;
+                        else goto InternalName;
+                    } break;
                 case 19: // Repeatable
-                    Name += "L "+ std::to_string(dataset->Techs[index].Repeatable);
-                    break;
-                }
-                }
+                    if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+                    {
+                        Name += "L "+ std::to_string(dataset->Techs[index].Repeatable);
+                    } break;
             }
             Name += ", ";
             if(Selection[1] < 2) break;
